@@ -1,6 +1,10 @@
 # OS X
 .DS_Store
 
+*.xcworkspace
+Podfile.lock
+Example/Pods
+
 # Xcode
 build/
 *.pbxuser

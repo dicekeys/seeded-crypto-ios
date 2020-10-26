@@ -1,42 +1,30 @@
-#
-# Be sure to run `pod lib lint SeededCrypto.podspec' to ensure this is a
-# valid spec before submitting.
-#
-# Any lines starting with a # are optional, but their use is encouraged
-# To learn more about a Podspec see https://guides.cocoapods.org/syntax/podspec.html
-#
 
 Pod::Spec.new do |s|
   s.name             = 'SeededCrypto'
   s.version          = '0.1.0'
-  s.summary          = 'A short description of SeededCrypto.'
-
-# This description is used to generate tags and improve search results.
-#   * Think: What does it do? Why did you write it? What is the focus?
-#   * Try to keep it short, snappy and to the point.
-#   * Write the description between the DESC delimiters below.
-#   * Finally, don't worry about the indent, CocoaPods strips it!
+  s.summary          = 'Seeded Cryptography Library for iOS'
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+Dicekeys Seeded Cryptography Library for iOS
                        DESC
 
-  s.homepage         = 'https://github.com/bakhtiyor/SeededCrypto'
-  # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
+  s.homepage         = 'https://github.com/dicekeys/seeded-crypto-ios'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'bakhtiyor' => 'bakhtiyor.k@gmail.com' }
-  s.source           = { :git => 'https://github.com/bakhtiyor/SeededCrypto.git', :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
+  s.source           = { :git => 'https://github.com/dicekeys/seeded-crypto-ios.git', :tag => s.version.to_s }
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '9.3'
 
-  s.source_files = 'SeededCrypto/Classes/**/*'
-  
-  # s.resource_bundles = {
-  #   'SeededCrypto' => ['SeededCrypto/Assets/*.png']
-  # }
+  s.source_files = 'SeededCrypto/Classes/**/*',
+    'SeededCrypto/seeded-crypto/lib-seeded/**/*.{cpp}',
+    'SeededCrypto/seeded-crypto/extern/libsodium/src/libsodium/**/*.{c}'
+  # s.private_header_files = 'SeededCrypto/seeded-crypto/extern/libsodium/src/include/**/*.h', 'SeededCrypto/seeded-crypto/extern/libsodium/src/**/*.h'
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
+  s.prepare_command = "cd SeededCrypto/seeded-crypto/extern/libsodium/; sh ./configure --disable-dependency-tracking; cd -"
+  s.pod_target_xcconfig = {
+    "HEADER_SEARCH_PATHS" => "\"$(PODS_TARGET_SRCROOT)/SeededCrypto/seeded-crypto/extern/libsodium/src/libsodium/include/sodium\" \"$(PODS_TARGET_SRCROOT)/SeededCrypto/seeded-crypto/extern/libsodium/src/libsodium/include\" \"$(PODS_TARGET_SRCROOT)/SeededCrypto/seeded-crypto/lib-seeded\"",
+    "OTHER_CFLAGS" => "-DNATIVE_LITTLE_ENDIAN=1 -DHAVE_MADVISE -DHAVE_MMAP -DHAVE_MPROTECT -DHAVE_POSIX_MEMALIGN -DHAVE_WEAK_SYMBOLS"
+  }
+   
+  s.public_header_files = 'SpeededCrypto/Classes/**/*.h'
 end
