@@ -1,10 +1,5 @@
 # SeededCrypto
 
-[![CI Status](https://img.shields.io/travis/bakhtiyor/SeededCrypto.svg?style=flat)](https://travis-ci.org/bakhtiyor/SeededCrypto)
-[![Version](https://img.shields.io/cocoapods/v/SeededCrypto.svg?style=flat)](https://cocoapods.org/pods/SeededCrypto)
-[![License](https://img.shields.io/cocoapods/l/SeededCrypto.svg?style=flat)](https://cocoapods.org/pods/SeededCrypto)
-[![Platform](https://img.shields.io/cocoapods/p/SeededCrypto.svg?style=flat)](https://cocoapods.org/pods/SeededCrypto)
-
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
@@ -20,9 +15,6 @@ it, simply add the following line to your Podfile:
 pod 'SeededCrypto'
 ```
 
-## Author
-
-bakhtiyor, bakhtiyor.k@gmail.com
 
 ## License
 
