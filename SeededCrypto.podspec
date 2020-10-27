@@ -26,5 +26,5 @@ Dicekeys Seeded Cryptography Library for iOS
     "OTHER_CFLAGS" => "-DNATIVE_LITTLE_ENDIAN=1 -DHAVE_MADVISE -DHAVE_MMAP -DHAVE_MPROTECT -DHAVE_POSIX_MEMALIGN -DHAVE_WEAK_SYMBOLS"
   }
    
-  s.public_header_files = 'SpeededCrypto/Classes/**/*.h'
+  s.public_header_files = 'SeededCrypto/Classes/**/*.h'
 end
