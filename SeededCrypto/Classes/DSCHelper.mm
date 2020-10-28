@@ -23,3 +23,6 @@ NSData* unsignedCharVectorToData(std::vector<unsigned char> v) {
     return [[NSData alloc] initWithBytes:v.data() length:size];
 }
 
+const unsigned char * stringToUnsignedCharArray(NSString* str) {
+    return (const unsigned char*) [str UTF8String];
+}

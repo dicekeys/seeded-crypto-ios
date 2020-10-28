@@ -9,6 +9,7 @@ struct SodiumBuffer dataToSodiumBuffer(NSData* data);
 #include <vector>
 std::vector<unsigned char> dataToUnsignedCharVector(NSData* data);
 NSData* unsignedCharVectorToData(std::vector<unsigned char> v);
+const unsigned char * stringToUnsignedCharArray(NSString* str);
 #endif
 
 
