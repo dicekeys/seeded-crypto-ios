@@ -15,7 +15,7 @@
     return self;
 }
 
-- (instancetype)initWithCipherText:(NSData *)cyphertext derivationOptionsJson:(NSString*)derivationOptionsJson unsealingInstrucations:(NSString*)unsealingInstructions {
+- (instancetype)initWithCipherText:(NSData *)cyphertext derivationOptionsJson:(NSString*)derivationOptionsJson unsealingInstructions:(NSString*)unsealingInstructions {
     
     const std::vector<unsigned char> cipher = dataToUnsignedCharVector(cyphertext);
     
@@ -43,7 +43,7 @@
     return sodiumBufferToData(sodiumBuffer);
 }
 
-- (NSData*) cyphertext {
+- (NSData*) ciphertext {
     return unsignedCharVectorToData(_packagedSealedMessageObject->ciphertext);
 }
 
@@ -53,6 +53,10 @@
 
 - (NSString*) unsealingInstructions {
     return [NSString stringWithUTF8String:_packagedSealedMessageObject->unsealingInstructions.c_str()];
+}
+
+- (PackagedSealedMessage*)wrappedObject {
+    return _packagedSealedMessageObject;
 }
 
 - (void)dealloc {

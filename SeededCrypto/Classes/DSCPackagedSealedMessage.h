@@ -9,7 +9,7 @@ NS_SWIFT_NAME(PackagedSealedMessage)
 
 - (instancetype)initWithPackagedSealedMessage:(struct PackagedSealedMessage*)packagedSealedMessage;
 
-- (instancetype)initWithCipherText:(NSData *)cyphertext derivationOptionsJson:(NSString*)derivationOptionsJson unsealingInstrucations:(NSString*)unsealingInstructions;
+- (instancetype)initWithCipherText:(NSData *)cyphertext derivationOptionsJson:(NSString*)derivationOptionsJson unsealingInstructions:(NSString*)unsealingInstructions;
 
 + (instancetype)fromJsonWithPackagedSealedMessageAsJson:(NSString*)packagedSealedMessageAsJson;
 
@@ -19,11 +19,13 @@ NS_SWIFT_NAME(PackagedSealedMessage)
 
 - (NSData*)toSerializedBinaryForm;
 
-@property(readonly) NSData* cyphertext;
+@property(readonly) NSData* ciphertext;
 
 @property(readonly) NSString* derivationOptionsJson;
 
 @property(readonly) NSString* unsealingInstructions;
+
+@property(readonly) struct PackagedSealedMessage* wrappedObject;
 
 @end
 

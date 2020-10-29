@@ -19,10 +19,14 @@
 		6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
-		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
 		71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
 		EC8D44044AFAAB6C75AF490E /* Pods_SeededCrypto_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DB38EA06CCEC695B18AC58D /* Pods_SeededCrypto_Example.framework */; };
+		ECA2503D2546877100A1225B /* DSCDerivationOptionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ECA2503C2546877100A1225B /* DSCDerivationOptionsTests.m */; };
+		ECA2504625468D3300A1225B /* DSCSecretTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ECA2504525468D3300A1225B /* DSCSecretTests.m */; };
+		ECA250502546A57300A1225B /* DSCPasswordTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ECA2504F2546A57300A1225B /* DSCPasswordTests.m */; };
+		ECA250542546CBF000A1225B /* DSCSigningKeyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ECA250532546CBF000A1225B /* DSCSigningKeyTests.m */; };
+		ECA250622549873900A1225B /* DSCSymmetricKeyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ECA250612549873900A1225B /* DSCSymmetricKeyTests.m */; };
 		F789E4CBF0B5A922592A844F /* Pods_SeededCrypto_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4267A105A69897A5C51739F9 /* Pods_SeededCrypto_Tests.framework */; };
 /* End PBXBuildFile section */
 
@@ -38,7 +42,7 @@
 
 /* Begin PBXFileReference section */
 		1DB38EA06CCEC695B18AC58D /* Pods_SeededCrypto_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SeededCrypto_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		2319F0AD72E16638959A5875 /* SeededCrypto.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = SeededCrypto.podspec; path = ../SeededCrypto.podspec; sourceTree = "<group>"; };
+		2319F0AD72E16638959A5875 /* SeededCrypto.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SeededCrypto.podspec; path = ../SeededCrypto.podspec; sourceTree = "<group>"; };
 		4267A105A69897A5C51739F9 /* Pods_SeededCrypto_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SeededCrypto_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58A195388D20070C39A /* SeededCrypto_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeededCrypto_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -57,16 +61,20 @@
 		6003F5AF195388D20070C39A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		6003F5B7195388D20070C39A /* Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tests-Info.plist"; sourceTree = "<group>"; };
 		6003F5B9195388D20070C39A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		6003F5BB195388D20070C39A /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
-		63F7ACCD2011D4F11D627991 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		63F7ACCD2011D4F11D627991 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		71719F9E1E33DC2100824A3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		72CE6B553D07CD4E9A0B2011 /* Pods-SeededCrypto_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeededCrypto_Example.release.xcconfig"; path = "Target Support Files/Pods-SeededCrypto_Example/Pods-SeededCrypto_Example.release.xcconfig"; sourceTree = "<group>"; };
 		74B30DF0CC2DAAF7F2C49952 /* Pods-SeededCrypto_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeededCrypto_Tests.debug.xcconfig"; path = "Target Support Files/Pods-SeededCrypto_Tests/Pods-SeededCrypto_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		79E5CD5E3AA5F78B6C739019 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		79E5CD5E3AA5F78B6C739019 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8FFD134AB0CB3FCC084377DC /* Pods-SeededCrypto_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeededCrypto_Tests.release.xcconfig"; path = "Target Support Files/Pods-SeededCrypto_Tests/Pods-SeededCrypto_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		D0F6D75FD2374C1F64A9E25E /* Pods-SeededCrypto_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeededCrypto_Example.debug.xcconfig"; path = "Target Support Files/Pods-SeededCrypto_Example/Pods-SeededCrypto_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		ECA2503C2546877100A1225B /* DSCDerivationOptionsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DSCDerivationOptionsTests.m; sourceTree = "<group>"; };
+		ECA2504525468D3300A1225B /* DSCSecretTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DSCSecretTests.m; sourceTree = "<group>"; };
+		ECA2504F2546A57300A1225B /* DSCPasswordTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DSCPasswordTests.m; sourceTree = "<group>"; };
+		ECA250532546CBF000A1225B /* DSCSigningKeyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DSCSigningKeyTests.m; sourceTree = "<group>"; };
+		ECA250612549873900A1225B /* DSCSymmetricKeyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DSCSymmetricKeyTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,8 +167,12 @@
 		6003F5B5195388D20070C39A /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				6003F5BB195388D20070C39A /* Tests.m */,
 				6003F5B6195388D20070C39A /* Supporting Files */,
+				ECA2503C2546877100A1225B /* DSCDerivationOptionsTests.m */,
+				ECA2504525468D3300A1225B /* DSCSecretTests.m */,
+				ECA2504F2546A57300A1225B /* DSCPasswordTests.m */,
+				ECA250532546CBF000A1225B /* DSCSigningKeyTests.m */,
+				ECA250612549873900A1225B /* DSCSymmetricKeyTests.m */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -193,7 +205,6 @@
 				74B30DF0CC2DAAF7F2C49952 /* Pods-SeededCrypto_Tests.debug.xcconfig */,
 				8FFD134AB0CB3FCC084377DC /* Pods-SeededCrypto_Tests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -258,6 +269,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -374,7 +386,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6003F5BC195388D20070C39A /* Tests.m in Sources */,
+				ECA250622549873900A1225B /* DSCSymmetricKeyTests.m in Sources */,
+				ECA250542546CBF000A1225B /* DSCSigningKeyTests.m in Sources */,
+				ECA2504625468D3300A1225B /* DSCSecretTests.m in Sources */,
+				ECA250502546A57300A1225B /* DSCPasswordTests.m in Sources */,
+				ECA2503D2546877100A1225B /* DSCDerivationOptionsTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
