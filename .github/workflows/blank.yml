@@ -1,0 +1,21 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  macos:
+    runs-on: macOS-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v
+      - uses: sersoft-gmbh/xcodebuild-action@v1
+        with:
+          project: Example/SeededCrypto.xcworkspace
+          scheme: SeededCrypto-Example
+          destination: platform=iOS Simulator,name=iPhone 11
+          action: test
+     
