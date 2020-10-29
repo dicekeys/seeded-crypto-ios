@@ -18,7 +18,7 @@ Dicekeys Seeded Cryptography Library for iOS
   s.source_files = 'SeededCrypto/Classes/**/*',
     'SeededCrypto/seeded-crypto/lib-seeded/**/*.{cpp}',
     'SeededCrypto/seeded-crypto/extern/libsodium/src/libsodium/**/*.{c}'
-  # s.private_header_files = 'SeededCrypto/seeded-crypto/extern/libsodium/src/include/**/*.h', 'SeededCrypto/seeded-crypto/extern/libsodium/src/**/*.h'
+  s.private_header_files = 'SeededCrypto/Classes/DSCHelper.h'
 
   s.prepare_command = "cd SeededCrypto/seeded-crypto/extern/libsodium/; sh ./configure --disable-dependency-tracking; cd -"
   s.pod_target_xcconfig = {
@@ -26,5 +26,5 @@ Dicekeys Seeded Cryptography Library for iOS
     "OTHER_CFLAGS" => "-DNATIVE_LITTLE_ENDIAN=1 -DHAVE_MADVISE -DHAVE_MMAP -DHAVE_MPROTECT -DHAVE_POSIX_MEMALIGN -DHAVE_WEAK_SYMBOLS"
   }
    
-  s.public_header_files = 'SpeededCrypto/Classes/**/*.h'
+  s.public_header_files = 'SeededCrypto/Classes/**/*.h'
 end
