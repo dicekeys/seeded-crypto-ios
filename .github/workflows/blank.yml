@@ -12,10 +12,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
-      - uses: sersoft-gmbh/xcodebuild-action@v1
-        with:
-          project: Example/SeededCrypto.xcworkspace
-          scheme: SeededCrypto-Example
-          destination: platform=iOS Simulator,name=iPhone 11
-          action: test
+      - name: Run tests
+        run: xcodebuild clean test -workspace "Example/SeededCrypto.xcworkspace" -scheme 'SeededCrypto-Example' -destination 'platform=iOS Simulator,name=iPhone 11'
      
