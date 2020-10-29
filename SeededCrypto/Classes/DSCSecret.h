@@ -5,19 +5,20 @@ NS_ASSUME_NONNULL_BEGIN
 NS_SWIFT_NAME(Secret)
 @interface DSCSecret : NSObject
 
-+ (instancetype)fromJsonWithSeedAsString:(NSString*)seedAsString;
++ (instancetype)fromJsonWithSeedAsString:(NSString *)seedAsString;
 
-+ (instancetype)fromSerializedBinaryFrom:(NSData*)serializedBinaryForm;
++ (instancetype)fromSerializedBinaryFrom:(NSData *)serializedBinaryForm;
 
-+ (instancetype)deriveFromSeedWithSeedString:(NSString*)seedString derivationOptionsJson:(NSString*)derivationOptionsJson;
++ (instancetype)deriveFromSeedWithSeedString:(NSString *)seedString
+                       derivationOptionsJson:(NSString *)derivationOptionsJson;
 
-- (NSString*)toJson;
+- (NSString *)toJson;
 
-- (NSData*)toSerializedBinaryForm;
+- (NSData *)toSerializedBinaryForm;
 
-- (NSData*)secretBytes;
+- (NSData *)secretBytes;
 
-@property(readonly) NSString* derivationOptionsJson;
+@property(readonly) NSString *derivationOptionsJson;
 
 @end
 

@@ -10,15 +10,12 @@ NS_SWIFT_NAME(Password)
                       derivationOptionsJson:(NSString *)derivationOptionsJson
                      wordListAsSingleString:(NSString *)wordListAsSingleString;
 
-
-+ (instancetype)
-    deriveFromSeedWithSeedString:(NSString *)seedString
-                        derivationOptionsJson:(NSString *)derivationOptionsJson;
++ (instancetype)deriveFromSeedWithSeedString:(NSString *)seedString
+                       derivationOptionsJson:(NSString *)derivationOptionsJson;
 
 + (instancetype)fromJsonWithSeedAsJson:(NSString *)seedAsJson;
 
-+ (instancetype)fromSerializedBinaryFrom:(NSData*)serializedBinaryForm;
-
++ (instancetype)fromSerializedBinaryFrom:(NSData *)serializedBinaryForm;
 
 //- (instancetype)init NS_UNAVAILABLE;
 
@@ -26,7 +23,7 @@ NS_SWIFT_NAME(Password)
 - (NSString *)toJsonWithIndent:(int)indent;
 - (NSString *)toJsonWithIndent:(int)indent indentChar:(char)indentChar;
 
-- (NSData*)toSerializedBinaryForm;
+- (NSData *)toSerializedBinaryForm;
 
 @property(readonly) NSString *password;
 @property(readonly) NSString *derivationOptionsJson;

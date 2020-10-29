@@ -26,41 +26,38 @@
   Password obj = Password::deriveFromSeedAndWordList(
       [seedString UTF8String], [derivationOptionsJson UTF8String],
       [wordListAsSingleString UTF8String]);
-  return [[DSCPassword alloc] initWithPassword: new Password(obj)];
+  return [[DSCPassword alloc] initWithPassword:new Password(obj)];
 }
 
-+ (instancetype)
-    deriveFromSeedWithSeedString:(NSString *)seedString
-                      derivationOptionsJson:(NSString *)derivationOptionsJson {
-  Password obj = Password::deriveFromSeed(
-      [seedString UTF8String], [derivationOptionsJson UTF8String]);
-  return [[DSCPassword alloc] initWithPassword: new Password(obj)];
++ (instancetype)deriveFromSeedWithSeedString:(NSString *)seedString
+                       derivationOptionsJson:(NSString *)derivationOptionsJson {
+  Password obj = Password::deriveFromSeed([seedString UTF8String],
+                                          [derivationOptionsJson UTF8String]);
+  return [[DSCPassword alloc] initWithPassword:new Password(obj)];
 }
 
 + (instancetype)fromJsonWithSeedAsJson:(NSString *)seedAsJson {
   Password obj = Password::fromJson([seedAsJson UTF8String]);
-  return [[DSCPassword alloc] initWithPassword: new Password(obj)];
+  return [[DSCPassword alloc] initWithPassword:new Password(obj)];
 }
 
-
-+ (instancetype)fromSerializedBinaryFrom:(NSData*)serializedBinaryForm {
-    SodiumBuffer sodiumBuffer = dataToSodiumBuffer(serializedBinaryForm);
-    Password password = Password::fromSerializedBinaryForm(sodiumBuffer);
-    return [[DSCPassword alloc] initWithPassword: new Password(password)];
++ (instancetype)fromSerializedBinaryFrom:(NSData *)serializedBinaryForm {
+  SodiumBuffer sodiumBuffer = dataToSodiumBuffer(serializedBinaryForm);
+  Password password = Password::fromSerializedBinaryForm(sodiumBuffer);
+  return [[DSCPassword alloc] initWithPassword:new Password(password)];
 }
 
-- (NSString*)password {
-    return [NSString stringWithUTF8String:_passwordObject->password.c_str()];
+- (NSString *)password {
+  return [NSString stringWithUTF8String:_passwordObject->password.c_str()];
 }
 
 - (NSString *)toJson {
-  return [NSString
-      stringWithUTF8String:_passwordObject->toJson().c_str()];
+  return [NSString stringWithUTF8String:_passwordObject->toJson().c_str()];
 }
 
 - (NSString *)toJsonWithIndent:(int)indent {
-  return [NSString
-      stringWithUTF8String:_passwordObject->toJson(indent).c_str()];
+  return
+      [NSString stringWithUTF8String:_passwordObject->toJson(indent).c_str()];
 }
 
 - (NSString *)toJsonWithIndent:(int)indent indentChar:(char)indentChar {
@@ -68,12 +65,17 @@
       stringWithUTF8String:_passwordObject->toJson(indent, indentChar).c_str()];
 }
 
-- (NSData*)toSerializedBinaryForm; {
-    return sodiumBufferToData(_passwordObject->toSerializedBinaryForm());// [DSCHelper dataWithSodiumBuffer:_passwordObject->toSerializedBinaryForm()];
+- (NSData *)toSerializedBinaryForm;
+{
+  return sodiumBufferToData(
+      _passwordObject
+          ->toSerializedBinaryForm()); // [DSCHelper
+                                       // dataWithSodiumBuffer:_passwordObject->toSerializedBinaryForm()];
 }
 
-- (NSString*)derivationOptionsJson {
-    return [NSString stringWithUTF8String:_passwordObject->derivationOptionsJson.c_str()];
+- (NSString *)derivationOptionsJson {
+  return [NSString
+      stringWithUTF8String:_passwordObject->derivationOptionsJson.c_str()];
 }
 
 - (void)dealloc {
@@ -81,4 +83,3 @@
 }
 
 @end
-

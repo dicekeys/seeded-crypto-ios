@@ -1,32 +1,34 @@
-#import <Foundation/Foundation.h>
 #import "DSCSignatureVerificationKey.h"
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 NS_SWIFT_NAME(SigningKey)
 @interface DSCSigningKey : NSObject
-+ (instancetype)deriveFromSeedWithSeedString:(NSString*)seedString derivationOptionsJson:(NSString*)derivationOptionsJson;
++ (instancetype)deriveFromSeedWithSeedString:(NSString *)seedString
+                       derivationOptionsJson:(NSString *)derivationOptionsJson;
 
-+ (NSData*)generateSignatureWithMessage:(NSString*)message seedString:(NSString*)seedString derivationOptionsJson:(NSString*)derivationOptionsJson;
++ (NSData *)generateSignatureWithMessage:(NSString *)message
+                              seedString:(NSString *)seedString
+                   derivationOptionsJson:(NSString *)derivationOptionsJson;
 
-- (NSData*)generateSignatureWithMessage:(NSString*)message;
+- (NSData *)generateSignatureWithMessage:(NSString *)message;
 
++ (instancetype)fromJsonWithSeedAsString:(NSString *)seedAsString;
 
-+ (instancetype)fromJsonWithSeedAsString:(NSString*)seedAsString;
++ (instancetype)fromSerializedBinaryFrom:(NSData *)serializedBinaryForm;
 
-+ (instancetype)fromSerializedBinaryFrom:(NSData*)serializedBinaryForm;
+- (NSString *)toJson;
 
-- (NSString*)toJson;
+- (NSData *)toSerializedBinaryForm;
 
-- (NSData*)toSerializedBinaryForm;
+@property(readonly) NSString *derivationOptionsJson;
 
-@property(readonly) NSString* derivationOptionsJson;
+@property(readonly) DSCSignatureVerificationKey *signatureVerificationKey;
 
-@property(readonly) DSCSignatureVerificationKey* signatureVerificationKey;
+@property(readonly) NSData *signingKeyBytes;
 
-@property(readonly) NSData* signingKeyBytes;
-
-@property(readonly) NSData* signatureVerificationKeyBytes;
+@property(readonly) NSData *signatureVerificationKeyBytes;
 
 @end
 
