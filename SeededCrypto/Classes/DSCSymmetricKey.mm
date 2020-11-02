@@ -12,7 +12,7 @@
 }
 
 - (instancetype)initWithSymmetricKey:(SymmetricKey *)symmetricKey {
-  self = [[DSCSymmetricKey alloc] init];
+  self = [self init];
   if (self != NULL) {
     _symmetricKeyObject = symmetricKey;
   }
