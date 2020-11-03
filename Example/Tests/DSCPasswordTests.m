@@ -63,34 +63,49 @@ static NSString *orderedTestKey = @"A1tB2rC3bD4lE5tF6bG1tH1tI1tJ1tK1tL1tM1tN1tO"
 }
 
 - (void)testTenWordsViaLengthInWords {
-  DSCPassword *password = [DSCPassword
-      deriveFromSeedWithSeedString:orderedTestKey
-             derivationOptionsJson:
-                 @"{\"type\": \"Password\", \"lengthInBits\": 90}"];
-  // TODO: fix
-  // XCTAssertEqualObjects(password.password,
-  // @"10-Ionic-buzz-shine-theme-paced-bulge-cache-water-shown-baggy");
+  NSString *derivationOptions = @"{\n\
+\t\"type\": "
+                                @"\"Password\",\n\
+\t\"lengthInBits\": 90\n\
+}";
+  DSCPassword *password =
+      [DSCPassword deriveFromSeedWithSeedString:orderedTestKey
+                          derivationOptionsJson:derivationOptions];
+
+  XCTAssertEqualObjects(
+      password.password,
+      @"10-Ionic-buzz-shine-theme-paced-bulge-cache-water-shown-baggy");
 }
 
 - (void)testElevenWordsViaLengthInWords {
-  DSCPassword *password = [DSCPassword
-      deriveFromSeedWithSeedString:orderedTestKey
-             derivationOptionsJson:
-                 @"{\"type\": \"Password\", \"lengthInWords\": 11}"];
-  // TODO: fix
-  // XCTAssertEqualObjects(password.password,
-  // @"11-Clean-snare-donor-petty-grimy-payee-limbs-stole-roman-aloha-dense");
+  NSString *derivationOptions = @"{\n\
+\t\"type\": "
+                                @"\"Password\",\n\
+\t\"lengthInWords\": "
+                                @"11\n\
+}";
+  DSCPassword *password =
+      [DSCPassword deriveFromSeedWithSeedString:orderedTestKey
+                          derivationOptionsJson:derivationOptions];
+
+  XCTAssertEqualObjects(
+      password.password,
+      @"11-Clean-snare-donor-petty-grimy-payee-limbs-stole-roman-aloha-dense");
 }
 
 - (void)testThirteenWordsViaDefaultWithAltWordList {
+  NSString *derivationOptions = @"{\n\
+\t\"wordList\": "
+                                @"\"EN_1024_words_6_chars_max_ed_4_"
+                                @"20200917\"\n\
+}";
   DSCPassword *password =
       [DSCPassword deriveFromSeedWithSeedString:orderedTestKey
-                          derivationOptionsJson:
-                              @"{\"wordList\": "
-                              @"\"EN_1024_words_6_chars_max_ed_4_20200917\"}"];
-  // TODO: fix
-  // XCTAssertEqualObjects(password.password,
-  // @"13-Curtsy-jersey-juror-anchor-catsup-parole-kettle-floral-agency-donor-dealer-plural-accent");
+                          derivationOptionsJson:derivationOptions];
+
+  XCTAssertEqualObjects(password.password,
+                        @"13-Curtsy-jersey-juror-anchor-catsup-parole-kettle-"
+                        @"floral-agency-donor-dealer-plural-accent");
 }
 
 - (void)testFifteenWordsViaDefaults {
