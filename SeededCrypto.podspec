@@ -16,8 +16,8 @@ Dicekeys Seeded Cryptography Library for iOS
   s.ios.deployment_target = '9.3'
 
   s.source_files = 'SeededCrypto/Classes/**/*',
-    'SeededCrypto/seeded-crypto/lib-seeded/**/*.{cpp}',
-    'SeededCrypto/seeded-crypto/extern/libsodium/src/libsodium/**/*.{c}'
+    'SeededCrypto/seeded-crypto/lib-seeded/**/*.{cpp,hpp,h}',
+    'SeededCrypto/seeded-crypto/extern/libsodium/src/libsodium/**/*.{c,h}'
   s.private_header_files = 'SeededCrypto/Classes/DSCHelper.h'
 
   s.prepare_command = "cd SeededCrypto/seeded-crypto/extern/libsodium/; sh ./configure --disable-dependency-tracking; cd -"
