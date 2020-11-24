@@ -43,6 +43,15 @@ NS_SWIFT_NAME(UnsealingKey)
                                    seedString:(NSString *)seedString
                             derivationOptions:(NSString *)derivationOptions;
 
++ (DSCPackagedSealedMessage *)sealWithData:(NSData *)data
+                                seedString:(NSString *)seedString
+                         derivationOptions:(NSString *)derivationOptions;
+
++ (DSCPackagedSealedMessage *)sealWithData:(NSData *)data
+                     unsealingInstrucation:(NSString *)unsealingInstrucations
+                                seedString:(NSString *)seedString
+                         derivationOptions:(NSString *)derivationOptions;
+
 - (DSCSealingKey *)sealingKey;
 
 - (NSData *)unsealWithCiphertext:(NSData *)ciphertext

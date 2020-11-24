@@ -23,10 +23,20 @@ NS_SWIFT_NAME(SymmetricKey)
 
 - (DSCPackagedSealedMessage *)sealWithMessage:(NSString *)message;
 
+- (DSCPackagedSealedMessage *)sealWithData:(NSData *)data
+                     unsealingInstructions:(NSString *)unsealingInstrucations;
+
+- (DSCPackagedSealedMessage *)sealWithData:(NSData *)data;
+
 - (NSData *)sealToCiphertextOnlyWithMessage:(NSString *)message
                       unsealingInstructions:(NSString *)unsealingInstructions;
 
 - (NSData *)sealToCiphertextOnlyWithMessage:(NSString *)message;
+
+- (NSData *)sealToCiphertextOnlyWithData:(NSData *)data
+                   unsealingInstructions:(NSString *)unsealingInstructions;
+
+- (NSData *)sealToCiphertextOnlyWithData:(NSData *)data;
 
 - (NSData *)unsealWithPackagedSealedMessage:
     (DSCPackagedSealedMessage *)packagedSealedMessage;
@@ -55,6 +65,15 @@ NS_SWIFT_NAME(SymmetricKey)
                         unsealingInstructions:(NSString *)unsealingInstructions
                                    seedString:(NSString *)seedString
                             derivationOptions:(NSString *)derivationOptions;
+
++ (DSCPackagedSealedMessage *)sealWithData:(NSData *)data
+                                seedString:(NSString *)seedString
+                         derivationOptions:(NSString *)derivationOptions;
+
++ (DSCPackagedSealedMessage *)sealWithData:(NSData *)data
+                     unsealingInstructions:(NSString *)unsealingInstructions
+                                seedString:(NSString *)seedString
+                         derivationOptions:(NSString *)derivationOptions;
 
 + (NSData *)unsealWithPackagedSealedMessage:
                 (DSCPackagedSealedMessage *)packagedSealedMessage

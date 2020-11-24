@@ -68,6 +68,11 @@
       dataToUnsignedCharVector(signature));
 }
 
+- (BOOL)verifyWithData:(NSData *)data signature:(NSData *)signature {
+  return _signatureVerificationKeyObject->verify(
+      dataToSodiumBuffer(data), dataToUnsignedCharVector(signature));
+}
+
 - (void)dealloc {
   delete _signatureVerificationKeyObject;
 }

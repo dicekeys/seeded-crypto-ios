@@ -70,6 +70,35 @@
       [sealingInstructions UTF8String]));
 }
 
+- (DSCPackagedSealedMessage *)sealWithData:(NSData *)data {
+  PackagedSealedMessage packagedSealedMessage =
+      _sealingKey->seal(dataToUnsignedCharVector(data));
+  return [[DSCPackagedSealedMessage alloc]
+      initWithPackagedSealedMessage:new PackagedSealedMessage(
+                                        packagedSealedMessage)];
+}
+
+- (DSCPackagedSealedMessage *)sealWithData:(NSData *)data
+                       sealingInstructions:(NSString *)sealingInstructions {
+  PackagedSealedMessage packagedSealedMessage = _sealingKey->seal(
+      dataToSodiumBuffer(data), [sealingInstructions UTF8String]);
+  return [[DSCPackagedSealedMessage alloc]
+      initWithPackagedSealedMessage:new PackagedSealedMessage(
+                                        packagedSealedMessage)];
+}
+
+- (NSData *)sealToCiphertextOnlyWithData:(NSData *)data {
+  return sodiumBufferToData(
+      _sealingKey->sealToCiphertextOnly(dataToSodiumBuffer(data)));
+}
+
+- (NSData *)sealToCiphertextOnlyWithData:(NSData *)data
+                     sealingInstructions:(NSString *)sealingInstructions {
+  return sodiumBufferToData(_sealingKey->sealToCiphertextOnly(
+      dataToSodiumBuffer(data),
+      stringToUnsignedCharVector(sealingInstructions)));
+}
+
 - (NSString *)derivationOptionsJson {
   return [NSString
       stringWithUTF8String:_sealingKey->derivationOptionsJson.c_str()];

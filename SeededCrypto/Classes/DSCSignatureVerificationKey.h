@@ -31,6 +31,8 @@ NS_SWIFT_NAME(SignatureVerificationKey)
 
 - (BOOL)verifyWithMessage:(NSString *)message signature:(NSData *)signature;
 
+- (BOOL)verifyWithData:(NSData *)data signature:(NSData *)signature;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -31,6 +31,16 @@ NS_SWIFT_NAME(SealingKey)
 - (NSData *)sealToCiphertextOnlyWithMessage:(NSString *)message
                         sealingInstructions:(NSString *)sealingInstructions;
 
+- (DSCPackagedSealedMessage *)sealWithData:(NSData *)data;
+
+- (DSCPackagedSealedMessage *)sealWithData:(NSData *)data
+                       sealingInstructions:(NSString *)sealingInstructions;
+
+- (NSData *)sealToCiphertextOnlyWithData:(NSData *)data;
+
+- (NSData *)sealToCiphertextOnlyWithData:(NSData *)data
+                     sealingInstructions:(NSString *)sealingInstructions;
+
 @property(readonly) NSString *derivationOptionsJson;
 
 @end

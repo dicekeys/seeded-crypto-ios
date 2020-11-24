@@ -12,7 +12,13 @@ NS_SWIFT_NAME(SigningKey)
                               seedString:(NSString *)seedString
                    derivationOptionsJson:(NSString *)derivationOptionsJson;
 
++ (NSData *)generateSignatureWithData:(NSData *)data
+                           seedString:(NSString *)seedString
+                derivationOptionsJson:(NSString *)derivationOptionsJson;
+
 - (NSData *)generateSignatureWithMessage:(NSString *)message;
+
+- (NSData *)generateSignatureWithData:(NSData *)data;
 
 + (instancetype)fromJsonWithSeedAsString:(NSString *)seedAsString;
 

@@ -18,6 +18,14 @@
       generateSignatureWithMessage:message];
 }
 
++ (NSData *)generateSignatureWithData:(NSData *)data
+                           seedString:(NSString *)seedString
+                derivationOptionsJson:(NSString *)derivationOptionsJson {
+  return [[DSCSigningKey deriveFromSeedWithSeedString:seedString
+                                derivationOptionsJson:derivationOptionsJson]
+      generateSignatureWithData:data];
+}
+
 - (instancetype)initWithSigningKeyObject:(SigningKey *)signingKey {
   self = [[DSCSigningKey alloc] init];
   if (self != NULL) {
@@ -57,6 +65,11 @@
 - (NSData *)generateSignatureWithMessage:(NSString *)message {
   return unsignedCharVectorToData(_signingKeyObject->generateSignature(
       stringToUnsignedCharArray(message), message.length));
+}
+
+- (NSData *)generateSignatureWithData:(NSData *)data {
+  return unsignedCharVectorToData(
+      _signingKeyObject->generateSignature(dataToUnsignedCharVector(data)));
 }
 
 - (NSString *)derivationOptionsJson {

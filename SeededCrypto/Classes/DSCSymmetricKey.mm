@@ -75,6 +75,23 @@
                                         packagedSealedMessage)];
 }
 
+- (DSCPackagedSealedMessage *)sealWithData:(NSData *)data
+                     unsealingInstructions:(NSString *)unsealingInstrucations {
+  PackagedSealedMessage packagedSealedMessage = _symmetricKeyObject->seal(
+      dataToSodiumBuffer(data), [unsealingInstrucations UTF8String]);
+  return [[DSCPackagedSealedMessage alloc]
+      initWithPackagedSealedMessage:new PackagedSealedMessage(
+                                        packagedSealedMessage)];
+}
+
+- (DSCPackagedSealedMessage *)sealWithData:(NSData *)data {
+  PackagedSealedMessage packagedSealedMessage =
+      _symmetricKeyObject->seal(dataToSodiumBuffer(data));
+  return [[DSCPackagedSealedMessage alloc]
+      initWithPackagedSealedMessage:new PackagedSealedMessage(
+                                        packagedSealedMessage)];
+}
+
 - (NSData *)sealToCiphertextOnlyWithMessage:(NSString *)message
                       unsealingInstructions:(NSString *)unsealingInstructions {
   return unsignedCharVectorToData(_symmetricKeyObject->sealToCiphertextOnly(
@@ -85,6 +102,17 @@
 - (NSData *)sealToCiphertextOnlyWithMessage:(NSString *)message {
   return unsignedCharVectorToData(_symmetricKeyObject->sealToCiphertextOnly(
       stringToUnsignedCharArray(message), message.length));
+}
+
+- (NSData *)sealToCiphertextOnlyWithData:(NSData *)data
+                   unsealingInstructions:(NSString *)unsealingInstructions {
+  return unsignedCharVectorToData(_symmetricKeyObject->sealToCiphertextOnly(
+      dataToSodiumBuffer(data), [unsealingInstructions UTF8String]));
+}
+
+- (NSData *)sealToCiphertextOnlyWithData:(NSData *)data {
+  return unsignedCharVectorToData(
+      _symmetricKeyObject->sealToCiphertextOnly(dataToSodiumBuffer(data)));
 }
 
 - (NSData *)unsealCiphertext:(NSData *)ciphertext {
@@ -138,6 +166,26 @@
                               derivationOptionsJson:derivationOptions];
   return [symmetricKey sealWithMessage:message
                  unsealingInstructions:unsealingInstructions];
+}
+
++ (DSCPackagedSealedMessage *)sealWithData:(NSData *)data
+                                seedString:(NSString *)seedString
+                         derivationOptions:(NSString *)derivationOptions {
+  DSCSymmetricKey *symmetricKey =
+      [DSCSymmetricKey deriveFromSeedWithSeedString:seedString
+                              derivationOptionsJson:derivationOptions];
+  return [symmetricKey sealWithData:data];
+}
+
++ (DSCPackagedSealedMessage *)sealWithData:(NSData *)data
+                     unsealingInstructions:(NSString *)unsealingInstructions
+                                seedString:(NSString *)seedString
+                         derivationOptions:(NSString *)derivationOptions {
+  DSCSymmetricKey *symmetricKey =
+      [DSCSymmetricKey deriveFromSeedWithSeedString:seedString
+                              derivationOptionsJson:derivationOptions];
+  return [symmetricKey sealWithData:data
+              unsealingInstructions:unsealingInstructions];
 }
 
 + (NSData *)unsealWithPackagedSealedMessage:

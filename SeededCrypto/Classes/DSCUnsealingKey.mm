@@ -98,6 +98,33 @@
                                         packagedSealedMessage)];
 }
 
++ (DSCPackagedSealedMessage *)sealWithData:(NSData *)data
+                                seedString:(NSString *)seedString
+                         derivationOptions:(NSString *)derivationOptions {
+  PackagedSealedMessage packagedSealedMessage =
+      UnsealingKey::deriveFromSeed([seedString UTF8String],
+                                   [derivationOptions UTF8String])
+          .getSealingKey()
+          .seal(dataToUnsignedCharVector(data));
+  return [[DSCPackagedSealedMessage alloc]
+      initWithPackagedSealedMessage:new PackagedSealedMessage(
+                                        packagedSealedMessage)];
+}
+
++ (DSCPackagedSealedMessage *)sealWithData:(NSData *)data
+                     unsealingInstrucation:(NSString *)unsealingInstrucations
+                                seedString:(NSString *)seedString
+                         derivationOptions:(NSString *)derivationOptions {
+  PackagedSealedMessage packagedSealedMessage =
+      UnsealingKey::deriveFromSeed([seedString UTF8String],
+                                   [derivationOptions UTF8String])
+          .getSealingKey()
+          .seal(dataToSodiumBuffer(data), [unsealingInstrucations UTF8String]);
+  return [[DSCPackagedSealedMessage alloc]
+      initWithPackagedSealedMessage:new PackagedSealedMessage(
+                                        packagedSealedMessage)];
+}
+
 - (DSCSealingKey *)sealingKey {
   SealingKey sealingKey = _unsealingKey->getSealingKey();
   return [[DSCSealingKey alloc]
