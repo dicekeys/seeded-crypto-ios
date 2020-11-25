@@ -14,9 +14,10 @@ NS_SWIFT_NAME(SignatureVerificationKey)
                        derivationOptionsJson:(NSString *)derivationOptionsJson;
 
 + (instancetype)fromJsonWithSignatureVerificationKeyAsJson:
-    (NSString *)signatureVerificationKeyAsJson;
+    (NSString *)signatureVerificationKeyAsJson NS_SWIFT_NAME(from(json:));
 
-+ (instancetype)fromSerializedBinaryFrom:(NSData *)serializedBinaryForm;
++ (instancetype)fromSerializedBinaryFrom:(NSData *)serializedBinaryForm
+    NS_SWIFT_NAME(from(serializedBinaryForm:));
 
 - (NSString *)toJson;
 

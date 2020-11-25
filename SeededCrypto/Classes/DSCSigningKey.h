@@ -20,9 +20,11 @@ NS_SWIFT_NAME(SigningKey)
 
 - (NSData *)generateSignatureWithData:(NSData *)data;
 
-+ (instancetype)fromJsonWithSeedAsString:(NSString *)seedAsString;
++ (instancetype)fromJsonWithSeedAsString:(NSString *)seedAsString
+    NS_SWIFT_NAME(from(json:));
 
-+ (instancetype)fromSerializedBinaryFrom:(NSData *)serializedBinaryForm;
++ (instancetype)fromSerializedBinaryFrom:(NSData *)serializedBinaryForm
+    NS_SWIFT_NAME(from(serializedBinaryForm:));
 
 - (NSString *)toJson;
 

@@ -133,14 +133,14 @@
       _symmetricKeyObject->unseal(*packagedSealedMessage.wrappedObject));
 }
 
-- (NSData *)unsealJsonPackagedSealedMessage:
+- (NSData *)unsealWithJsonPackagedSealedMessage:
     (NSString *)packagedSealedMessageJson {
   PackagedSealedMessage packagedSealedMessage =
       PackagedSealedMessage::fromJson([packagedSealedMessageJson UTF8String]);
   return sodiumBufferToData(_symmetricKeyObject->unseal(packagedSealedMessage));
 }
 
-- (NSData *)unsealBinaryPackagedSealedMessage:
+- (NSData *)unsealWithBinaryPackagedSealedMessage:
     (NSData *)binaryPackagedSealedMessage {
   PackagedSealedMessage packagedSealedMessage =
       PackagedSealedMessage::fromSerializedBinaryForm(

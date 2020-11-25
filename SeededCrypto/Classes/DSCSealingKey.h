@@ -13,9 +13,11 @@ NS_SWIFT_NAME(SealingKey)
 + (instancetype)deriveFromSeedWithSeedString:(NSString *)seedString
                        derivationOptionsJson:(NSString *)derivationOptionsJson;
 
-+ (instancetype)fromJsonWithSealingKeyAsJson:(NSString *)sealingKeyAsJson;
++ (instancetype)fromJsonWithSealingKeyAsJson:(NSString *)sealingKeyAsJson
+    NS_SWIFT_NAME(from(json:));
 
-+ (instancetype)fromSerializedBinaryFrom:(NSData *)serializedBinaryForm;
++ (instancetype)fromSerializedBinaryFrom:(NSData *)serializedBinaryForm
+    NS_SWIFT_NAME(from(serializedBinaryForm:));
 
 - (NSString *)toJson;
 

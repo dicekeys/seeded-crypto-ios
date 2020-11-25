@@ -13,9 +13,11 @@ NS_SWIFT_NAME(Password)
 + (instancetype)deriveFromSeedWithSeedString:(NSString *)seedString
                        derivationOptionsJson:(NSString *)derivationOptionsJson;
 
-+ (instancetype)fromJsonWithSeedAsJson:(NSString *)seedAsJson;
++ (instancetype)fromJsonWithSeedAsJson:(NSString *)seedAsJson
+    NS_SWIFT_NAME(from(json:));
 
-+ (instancetype)fromSerializedBinaryFrom:(NSData *)serializedBinaryForm;
++ (instancetype)fromSerializedBinaryFrom:(NSData *)serializedBinaryForm
+    NS_SWIFT_NAME(from(serializedBinaryForm:));
 
 //- (instancetype)init NS_UNAVAILABLE;
 

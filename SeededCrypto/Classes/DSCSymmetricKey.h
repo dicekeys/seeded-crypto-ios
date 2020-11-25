@@ -9,9 +9,11 @@ NS_SWIFT_NAME(SymmetricKey)
 + (instancetype)deriveFromSeedWithSeedString:(NSString *)seedString
                        derivationOptionsJson:(NSString *)derivationOptionsJson;
 
-+ (instancetype)fromJsonWithSymmetricKeyAsJson:(NSString *)symmetricKeyAsJson;
++ (instancetype)fromJsonWithSymmetricKeyAsJson:(NSString *)symmetricKeyAsJson
+    NS_SWIFT_NAME(from(json:));
 
-+ (instancetype)fromSerializedBinaryFrom:(NSData *)serializedBinaryForm;
++ (instancetype)fromSerializedBinaryFrom:(NSData *)serializedBinaryForm
+    NS_SWIFT_NAME(from(serializedBinaryForm:));
 
 - (NSString *)toJson;
 
@@ -46,10 +48,10 @@ NS_SWIFT_NAME(SymmetricKey)
 - (NSData *)unsealCiphertext:(NSData *)ciphertext
        unsealingInstructions:(NSString *)unsealingInstructions;
 
-- (NSData *)unsealJsonPackagedSealedMessage:
+- (NSData *)unsealWithJsonPackagedSealedMessage:
     (NSString *)packagedSealedMessageJson;
 
-- (NSData *)unsealBinaryPackagedSealedMessage:
+- (NSData *)unsealWithBinaryPackagedSealedMessage:
     (NSData *)binaryPackagedSealedMessage;
 
 @property(readonly) NSData *keyBytes;
