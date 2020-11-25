@@ -203,7 +203,7 @@ NSData *plainTextBuffer() {
       [symmetricKey sealWithMessage:plaintext
               unsealingInstructions:unsealingInstructions];
   NSData *recoveredPlainTextBytes =
-      [symmetricKey unsealJsonPackagedSealedMessage:[message toJson]];
+      [symmetricKey unsealWithJsonPackagedSealedMessage:[message toJson]];
   NSString *recoveredPlainText =
       [NSString stringWithUTF8String:[recoveredPlainTextBytes bytes]];
   XCTAssertEqualObjects(plaintext, recoveredPlainText);
@@ -217,7 +217,7 @@ NSData *plainTextBuffer() {
       [symmetricKey sealWithMessage:plaintext
               unsealingInstructions:unsealingInstructions];
   NSData *recoveredPlainTextBytes = [symmetricKey
-      unsealBinaryPackagedSealedMessage:[message toSerializedBinaryForm]];
+      unsealWithBinaryPackagedSealedMessage:[message toSerializedBinaryForm]];
   NSString *recoveredPlainText =
       [NSString stringWithUTF8String:[recoveredPlainTextBytes bytes]];
   XCTAssertEqualObjects(plaintext, recoveredPlainText);
