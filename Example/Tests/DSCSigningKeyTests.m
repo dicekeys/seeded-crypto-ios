@@ -13,9 +13,12 @@ static NSString *plaintext = @"This seals the deal!";
 @implementation DSCSigningKeyTests
 
 - (void)testSignAndVerify {
+  NSError *error;
   DSCSigningKey *signingKey =
       [DSCSigningKey deriveFromSeedWithSeedString:seedString
-                            derivationOptionsJson:derivationOptionsJson];
+                            derivationOptionsJson:derivationOptionsJson
+                                            error:&error];
+  XCTAssertNil(error);
   DSCSignatureVerificationKey *signatureVerificationKey =
       signingKey.signatureVerificationKey;
   XCTAssertEqualObjects(derivationOptionsJson,
@@ -26,22 +29,32 @@ static NSString *plaintext = @"This seals the deal!";
   XCTAssertEqualObjects(derivationOptionsJson,
                         signatureVerificationKey.derivationOptionsJson);
 
-  NSData *signature = [signingKey generateSignatureWithMessage:plaintext];
+  NSData *signature = [signingKey generateSignatureWithMessage:plaintext
+                                                         error:&error];
+  XCTAssertNil(error);
   XCTAssertTrue([signatureVerificationKey verifyWithMessage:plaintext
-                                                  signature:signature]);
+                                                  signature:signature
+                                                      error:&error]);
+  XCTAssertNil(error);
 
   NSData *invalidSignature = [NSData dataWithBytes:[signature bytes]
                                             length:signature.length - 1];
   XCTAssertFalse([signatureVerificationKey verifyWithMessage:plaintext
-                                                   signature:invalidSignature]);
+                                                   signature:invalidSignature
+                                                       error:&error]);
+  XCTAssertNil(error);
 }
 
 - (void)testSigningKeyToAndFromJson {
+  NSError *error;
   DSCSigningKey *signingKey =
       [DSCSigningKey deriveFromSeedWithSeedString:seedString
-                            derivationOptionsJson:derivationOptionsJson];
+                            derivationOptionsJson:derivationOptionsJson
+                                            error:&error];
+  XCTAssertNil(error);
   DSCSigningKey *copy =
-      [DSCSigningKey fromJsonWithSeedAsString:[signingKey toJson]];
+      [DSCSigningKey fromJsonWithSeedAsString:[signingKey toJson] error:&error];
+  XCTAssertNil(error);
   XCTAssertEqualObjects(signingKey.derivationOptionsJson,
                         copy.derivationOptionsJson);
   XCTAssertEqualObjects(signingKey.signingKeyBytes, copy.signingKeyBytes);
@@ -50,14 +63,19 @@ static NSString *plaintext = @"This seals the deal!";
 }
 
 - (void)testSingatureVerificationKeyToAndFromJson {
+  NSError *error;
   DSCSigningKey *signingKey =
       [DSCSigningKey deriveFromSeedWithSeedString:seedString
-                            derivationOptionsJson:derivationOptionsJson];
+                            derivationOptionsJson:derivationOptionsJson
+                                            error:&error];
+  XCTAssertNil(error);
   DSCSignatureVerificationKey *signatureVerificationKey =
       signingKey.signatureVerificationKey;
   DSCSignatureVerificationKey *copy = [DSCSignatureVerificationKey
       fromJsonWithSignatureVerificationKeyAsJson:[signatureVerificationKey
-                                                     toJson]];
+                                                     toJson]
+                                           error:&error];
+  XCTAssertNil(error);
   XCTAssertEqualObjects(signatureVerificationKey.derivationOptionsJson,
                         copy.derivationOptionsJson);
   XCTAssertEqualObjects(signatureVerificationKey.signatureVerificationKeyBytes,
@@ -65,20 +83,28 @@ static NSString *plaintext = @"This seals the deal!";
 }
 
 - (void)testRawSignAndVerify {
+  NSError *error;
   DSCSigningKey *signingKey =
       [DSCSigningKey deriveFromSeedWithSeedString:seedString
-                            derivationOptionsJson:derivationOptionsJson];
+                            derivationOptionsJson:derivationOptionsJson
+                                            error:&error];
+  XCTAssertNil(error);
   DSCSignatureVerificationKey *signatureVerificationKey =
       signingKey.signatureVerificationKey;
 
-  NSData *signature = [signingKey generateSignatureWithMessage:plaintext];
+  NSData *signature = [signingKey generateSignatureWithMessage:plaintext
+                                                         error:&error];
+  XCTAssertNil(error);
   XCTAssertTrue([signatureVerificationKey verifyWithMessage:plaintext
-                                                  signature:signature]);
-
+                                                  signature:signature
+                                                      error:&error]);
+  XCTAssertNil(error);
   NSData *invalidSignature = [NSData dataWithBytes:[signature bytes]
                                             length:signature.length - 1];
   XCTAssertFalse([signatureVerificationKey verifyWithMessage:plaintext
-                                                   signature:invalidSignature]);
+                                                   signature:invalidSignature
+                                                       error:&error]);
+  XCTAssertNil(error);
 }
 
 @end

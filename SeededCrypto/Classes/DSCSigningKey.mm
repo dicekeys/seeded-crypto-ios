@@ -12,10 +12,24 @@
 
 + (NSData *)generateSignatureWithMessage:(NSString *)message
                               seedString:(NSString *)seedString
-                   derivationOptionsJson:(NSString *)derivationOptionsJson {
+                   derivationOptionsJson:(NSString *)derivationOptionsJson
+                                   error:(NSError **)error {
   return [[DSCSigningKey deriveFromSeedWithSeedString:seedString
-                                derivationOptionsJson:derivationOptionsJson]
-      generateSignatureWithMessage:message];
+                                derivationOptionsJson:derivationOptionsJson
+                                                error:error]
+      generateSignatureWithMessage:message
+                             error:error];
+}
+
++ (NSData *)generateSignatureWithData:(NSData *)data
+                           seedString:(NSString *)seedString
+                derivationOptionsJson:(NSString *)derivationOptionsJson
+                                error:(NSError **)error {
+  return [[DSCSigningKey deriveFromSeedWithSeedString:seedString
+                                derivationOptionsJson:derivationOptionsJson
+                                                error:error]
+      generateSignatureWithData:data
+                          error:error];
 }
 
 - (instancetype)initWithSigningKeyObject:(SigningKey *)signingKey {
@@ -27,16 +41,28 @@
 }
 
 + (instancetype)deriveFromSeedWithSeedString:(NSString *)seedString
-                       derivationOptionsJson:(NSString *)derivationOptionsJson {
-  SigningKey signingKey = SigningKey::deriveFromSeed(
-      [seedString UTF8String], [derivationOptionsJson UTF8String]);
-  return [[DSCSigningKey alloc]
-      initWithSigningKeyObject:new SigningKey(signingKey)];
+                       derivationOptionsJson:(NSString *)derivationOptionsJson
+                                       error:(NSError **)error {
+  try {
+    SigningKey signingKey = SigningKey::deriveFromSeed(
+        [seedString UTF8String], [derivationOptionsJson UTF8String]);
+    return [[DSCSigningKey alloc]
+        initWithSigningKeyObject:new SigningKey(signingKey)];
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
 }
 
-+ (instancetype)fromJsonWithSeedAsString:(NSString *)seedAsString {
-  SigningKey obj = SigningKey::fromJson([seedAsString UTF8String]);
-  return [[DSCSigningKey alloc] initWithSigningKeyObject:new SigningKey(obj)];
++ (instancetype)fromJsonWithSeedAsString:(NSString *)seedAsString
+                                   error:(NSError **)error {
+  try {
+    SigningKey obj = SigningKey::fromJson([seedAsString UTF8String]);
+    return [[DSCSigningKey alloc] initWithSigningKeyObject:new SigningKey(obj)];
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
 }
 
 + (instancetype)fromSerializedBinaryFrom:(NSData *)serializedBinaryForm {
@@ -54,9 +80,25 @@
   return sodiumBufferToData(sodiumBuffer);
 }
 
-- (NSData *)generateSignatureWithMessage:(NSString *)message {
-  return unsignedCharVectorToData(_signingKeyObject->generateSignature(
-      stringToUnsignedCharArray(message), message.length));
+- (NSData *)generateSignatureWithMessage:(NSString *)message
+                                   error:(NSError **)error {
+  try {
+    return unsignedCharVectorToData(_signingKeyObject->generateSignature(
+        stringToUnsignedCharArray(message), message.length));
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
+}
+
+- (NSData *)generateSignatureWithData:(NSData *)data error:(NSError **)error {
+  try {
+    return unsignedCharVectorToData(
+        _signingKeyObject->generateSignature(dataToUnsignedCharVector(data)));
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
 }
 
 - (NSString *)derivationOptionsJson {

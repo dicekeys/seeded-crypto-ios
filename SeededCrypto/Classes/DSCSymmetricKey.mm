@@ -20,17 +20,29 @@
 }
 
 + (instancetype)deriveFromSeedWithSeedString:(NSString *)seedString
-                       derivationOptionsJson:(NSString *)derivationOptionsJson {
-  SymmetricKey obj = SymmetricKey::deriveFromSeed(
-      [seedString UTF8String], [derivationOptionsJson UTF8String]);
-  return [[DSCSymmetricKey alloc] initWithSymmetricKey:new SymmetricKey(obj)];
+                       derivationOptionsJson:(NSString *)derivationOptionsJson
+                                       error:(NSError **)error {
+  try {
+    SymmetricKey obj = SymmetricKey::deriveFromSeed(
+        [seedString UTF8String], [derivationOptionsJson UTF8String]);
+    return [[DSCSymmetricKey alloc] initWithSymmetricKey:new SymmetricKey(obj)];
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
 }
 
-+ (instancetype)fromJsonWithSymmetricKeyAsJson:(NSString *)symmetricKeyAsJson {
-  SymmetricKey symmetricKey =
-      SymmetricKey::fromJson([symmetricKeyAsJson UTF8String]);
-  return [[DSCSymmetricKey alloc]
-      initWithSymmetricKey:new SymmetricKey(symmetricKey)];
++ (instancetype)fromJsonWithSymmetricKeyAsJson:(NSString *)symmetricKeyAsJson
+                                         error:(NSError **)error {
+  try {
+    SymmetricKey symmetricKey =
+        SymmetricKey::fromJson([symmetricKeyAsJson UTF8String]);
+    return [[DSCSymmetricKey alloc]
+        initWithSymmetricKey:new SymmetricKey(symmetricKey)];
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
 }
 
 + (instancetype)fromSerializedBinaryFrom:(NSData *)serializedBinaryForm {
@@ -58,111 +70,258 @@
 }
 
 - (DSCPackagedSealedMessage *)sealWithMessage:(NSString *)message
-                        unsealingInstructions:
-                            (NSString *)unsealingInstrucations {
-  PackagedSealedMessage packagedSealedMessage = _symmetricKeyObject->seal(
-      [message UTF8String], [unsealingInstrucations UTF8String]);
-  return [[DSCPackagedSealedMessage alloc]
-      initWithPackagedSealedMessage:new PackagedSealedMessage(
-                                        packagedSealedMessage)];
+                        unsealingInstructions:(NSString *)unsealingInstrucations
+                                        error:(NSError **)error {
+  try {
+    PackagedSealedMessage packagedSealedMessage = _symmetricKeyObject->seal(
+        [message UTF8String], [unsealingInstrucations UTF8String]);
+    return [[DSCPackagedSealedMessage alloc]
+        initWithPackagedSealedMessage:new PackagedSealedMessage(
+                                          packagedSealedMessage)];
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
 }
 
-- (DSCPackagedSealedMessage *)sealWithMessage:(NSString *)message {
-  PackagedSealedMessage packagedSealedMessage =
-      _symmetricKeyObject->seal([message UTF8String]);
-  return [[DSCPackagedSealedMessage alloc]
-      initWithPackagedSealedMessage:new PackagedSealedMessage(
-                                        packagedSealedMessage)];
+- (DSCPackagedSealedMessage *)sealWithMessage:(NSString *)message
+                                        error:(NSError **)error {
+  try {
+    PackagedSealedMessage packagedSealedMessage =
+        _symmetricKeyObject->seal([message UTF8String]);
+    return [[DSCPackagedSealedMessage alloc]
+        initWithPackagedSealedMessage:new PackagedSealedMessage(
+                                          packagedSealedMessage)];
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
+}
+
+- (DSCPackagedSealedMessage *)sealWithData:(NSData *)data
+                     unsealingInstructions:(NSString *)unsealingInstrucations
+                                     error:(NSError **)error {
+  try {
+    PackagedSealedMessage packagedSealedMessage = _symmetricKeyObject->seal(
+        dataToSodiumBuffer(data), [unsealingInstrucations UTF8String]);
+    return [[DSCPackagedSealedMessage alloc]
+        initWithPackagedSealedMessage:new PackagedSealedMessage(
+                                          packagedSealedMessage)];
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
+}
+
+- (DSCPackagedSealedMessage *)sealWithData:(NSData *)data
+                                     error:(NSError **)error {
+  try {
+    PackagedSealedMessage packagedSealedMessage =
+        _symmetricKeyObject->seal(dataToSodiumBuffer(data));
+    return [[DSCPackagedSealedMessage alloc]
+        initWithPackagedSealedMessage:new PackagedSealedMessage(
+                                          packagedSealedMessage)];
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
 }
 
 - (NSData *)sealToCiphertextOnlyWithMessage:(NSString *)message
-                      unsealingInstructions:(NSString *)unsealingInstructions {
-  return unsignedCharVectorToData(_symmetricKeyObject->sealToCiphertextOnly(
-      stringToUnsignedCharArray(message), message.length,
-      [unsealingInstructions UTF8String]));
+                      unsealingInstructions:(NSString *)unsealingInstructions
+                                      error:(NSError **)error {
+  try {
+    return unsignedCharVectorToData(_symmetricKeyObject->sealToCiphertextOnly(
+        stringToUnsignedCharArray(message), message.length,
+        [unsealingInstructions UTF8String]));
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
 }
 
-- (NSData *)sealToCiphertextOnlyWithMessage:(NSString *)message {
-  return unsignedCharVectorToData(_symmetricKeyObject->sealToCiphertextOnly(
-      stringToUnsignedCharArray(message), message.length));
+- (NSData *)sealToCiphertextOnlyWithMessage:(NSString *)message
+                                      error:(NSError **)error {
+  try {
+    return unsignedCharVectorToData(_symmetricKeyObject->sealToCiphertextOnly(
+        stringToUnsignedCharArray(message), message.length));
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
 }
 
-- (NSData *)unsealCiphertext:(NSData *)ciphertext {
-  return sodiumBufferToData(
-      _symmetricKeyObject->unseal(dataToUnsignedCharVector(ciphertext)));
+- (NSData *)sealToCiphertextOnlyWithData:(NSData *)data
+                   unsealingInstructions:(NSString *)unsealingInstructions
+                                   error:(NSError **)error {
+  try {
+    return unsignedCharVectorToData(_symmetricKeyObject->sealToCiphertextOnly(
+        dataToSodiumBuffer(data), [unsealingInstructions UTF8String]));
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
+}
+
+- (NSData *)sealToCiphertextOnlyWithData:(NSData *)data
+                                   error:(NSError **)error {
+  try {
+    return unsignedCharVectorToData(
+        _symmetricKeyObject->sealToCiphertextOnly(dataToSodiumBuffer(data)));
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
+}
+
+- (NSData *)unsealCiphertext:(NSData *)ciphertext error:(NSError **)error {
+  try {
+    return sodiumBufferToData(
+        _symmetricKeyObject->unseal(dataToUnsignedCharVector(ciphertext)));
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
 }
 
 - (NSData *)unsealCiphertext:(NSData *)ciphertext
-       unsealingInstructions:(NSString *)unsealingInstructions {
-  return sodiumBufferToData(
-      _symmetricKeyObject->unseal(dataToUnsignedCharVector(ciphertext),
-                                  [unsealingInstructions UTF8String]));
+       unsealingInstructions:(NSString *)unsealingInstructions
+                       error:(NSError **)error {
+  try {
+    return sodiumBufferToData(
+        _symmetricKeyObject->unseal(dataToUnsignedCharVector(ciphertext),
+                                    [unsealingInstructions UTF8String]));
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
 }
 
 - (NSData *)unsealWithPackagedSealedMessage:
-    (DSCPackagedSealedMessage *)packagedSealedMessage {
-  return sodiumBufferToData(
-      _symmetricKeyObject->unseal(*packagedSealedMessage.wrappedObject));
+                (DSCPackagedSealedMessage *)packagedSealedMessage
+                                      error:(NSError **)error {
+  try {
+    return sodiumBufferToData(
+        _symmetricKeyObject->unseal(*packagedSealedMessage.wrappedObject));
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
 }
 
-- (NSData *)unsealJsonPackagedSealedMessage:
-    (NSString *)packagedSealedMessageJson {
-  PackagedSealedMessage packagedSealedMessage =
-      PackagedSealedMessage::fromJson([packagedSealedMessageJson UTF8String]);
-  return sodiumBufferToData(_symmetricKeyObject->unseal(packagedSealedMessage));
+- (NSData *)unsealWithJsonPackagedSealedMessage:
+                (NSString *)packagedSealedMessageJson
+                                          error:(NSError **)error {
+  try {
+    PackagedSealedMessage packagedSealedMessage =
+        PackagedSealedMessage::fromJson([packagedSealedMessageJson UTF8String]);
+    return sodiumBufferToData(
+        _symmetricKeyObject->unseal(packagedSealedMessage));
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
 }
 
-- (NSData *)unsealBinaryPackagedSealedMessage:
-    (NSData *)binaryPackagedSealedMessage {
-  PackagedSealedMessage packagedSealedMessage =
-      PackagedSealedMessage::fromSerializedBinaryForm(
-          dataToSodiumBuffer(binaryPackagedSealedMessage));
-  return sodiumBufferToData(_symmetricKeyObject->unseal(packagedSealedMessage));
+- (NSData *)unsealWithBinaryPackagedSealedMessage:
+                (NSData *)binaryPackagedSealedMessage
+                                            error:(NSError **)error {
+  try {
+    PackagedSealedMessage packagedSealedMessage =
+        PackagedSealedMessage::fromSerializedBinaryForm(
+            dataToSodiumBuffer(binaryPackagedSealedMessage));
+    return sodiumBufferToData(
+        _symmetricKeyObject->unseal(packagedSealedMessage));
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
 }
 
 + (DSCPackagedSealedMessage *)sealWithMessage:(NSString *)message
                                    seedString:(NSString *)seedString
-                            derivationOptions:(NSString *)derivationOptions {
+                            derivationOptions:(NSString *)derivationOptions
+                                        error:(NSError **)error {
   DSCSymmetricKey *symmetricKey =
       [DSCSymmetricKey deriveFromSeedWithSeedString:seedString
-                              derivationOptionsJson:derivationOptions];
-  return [symmetricKey sealWithMessage:message];
+                              derivationOptionsJson:derivationOptions
+                                              error:error];
+  return [symmetricKey sealWithMessage:message error:error];
 }
 
 + (DSCPackagedSealedMessage *)sealWithMessage:(NSString *)message
                         unsealingInstructions:(NSString *)unsealingInstructions
                                    seedString:(NSString *)seedString
-                            derivationOptions:(NSString *)derivationOptions {
+                            derivationOptions:(NSString *)derivationOptions
+                                        error:(NSError **)error {
   DSCSymmetricKey *symmetricKey =
       [DSCSymmetricKey deriveFromSeedWithSeedString:seedString
-                              derivationOptionsJson:derivationOptions];
+                              derivationOptionsJson:derivationOptions
+                                              error:error];
   return [symmetricKey sealWithMessage:message
-                 unsealingInstructions:unsealingInstructions];
+                 unsealingInstructions:unsealingInstructions
+                                 error:error];
+}
+
++ (DSCPackagedSealedMessage *)sealWithData:(NSData *)data
+                                seedString:(NSString *)seedString
+                         derivationOptions:(NSString *)derivationOptions
+                                     error:(NSError **)error {
+  DSCSymmetricKey *symmetricKey =
+      [DSCSymmetricKey deriveFromSeedWithSeedString:seedString
+                              derivationOptionsJson:derivationOptions
+                                              error:error];
+  return [symmetricKey sealWithData:data error:error];
+}
+
++ (DSCPackagedSealedMessage *)sealWithData:(NSData *)data
+                     unsealingInstructions:(NSString *)unsealingInstructions
+                                seedString:(NSString *)seedString
+                         derivationOptions:(NSString *)derivationOptions
+                                     error:(NSError **)error {
+  DSCSymmetricKey *symmetricKey =
+      [DSCSymmetricKey deriveFromSeedWithSeedString:seedString
+                              derivationOptionsJson:derivationOptions
+                                              error:error];
+  return [symmetricKey sealWithData:data
+              unsealingInstructions:unsealingInstructions
+                              error:error];
 }
 
 + (NSData *)unsealWithPackagedSealedMessage:
                 (DSCPackagedSealedMessage *)packagedSealedMessage
-                                 seedString:(NSString *)seedString {
-  return sodiumBufferToData(SymmetricKey::unseal(
-      *packagedSealedMessage.wrappedObject, [seedString UTF8String]));
+                                 seedString:(NSString *)seedString
+                                      error:(NSError **)error {
+  try {
+    return sodiumBufferToData(SymmetricKey::unseal(
+        *packagedSealedMessage.wrappedObject, [seedString UTF8String]));
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
 }
 
 + (NSData *)unsealWithJsonPackagedSealedMessage:
                 (NSString *)packagedSealedMessageJson
-                                     seedString:(NSString *)seedString {
+                                     seedString:(NSString *)seedString
+                                          error:(NSError **)error {
   DSCPackagedSealedMessage *packagedSealedMessage = [DSCPackagedSealedMessage
-      fromJsonWithPackagedSealedMessageAsJson:packagedSealedMessageJson];
+      fromJsonWithPackagedSealedMessageAsJson:packagedSealedMessageJson
+                                        error:error];
   return [DSCSymmetricKey unsealWithPackagedSealedMessage:packagedSealedMessage
-                                               seedString:seedString];
+                                               seedString:seedString
+                                                    error:error];
 }
 
 + (NSData *)unsealWithBinaryPackagedSealedMessage:
                 (NSData *)binaryPackagedSealedMessage
-                                       seedString:(NSString *)seedString {
+                                       seedString:(NSString *)seedString
+                                            error:(NSError **)error {
   DSCPackagedSealedMessage *packagedSealedMessage = [DSCPackagedSealedMessage
       fromSerializedBinaryFrom:binaryPackagedSealedMessage];
   return [DSCSymmetricKey unsealWithPackagedSealedMessage:packagedSealedMessage
-                                               seedString:seedString];
+                                               seedString:seedString
+                                                    error:error];
 }
 
 - (void)dealloc {

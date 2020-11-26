@@ -22,23 +22,41 @@
 + (instancetype)
     deriveFromSeedAndWordListWithSeedString:(NSString *)seedString
                       derivationOptionsJson:(NSString *)derivationOptionsJson
-                     wordListAsSingleString:(NSString *)wordListAsSingleString {
-  Password obj = Password::deriveFromSeedAndWordList(
-      [seedString UTF8String], [derivationOptionsJson UTF8String],
-      [wordListAsSingleString UTF8String]);
-  return [[DSCPassword alloc] initWithPassword:new Password(obj)];
+                     wordListAsSingleString:(NSString *)wordListAsSingleString
+                                      error:(NSError **)error {
+  try {
+    Password obj = Password::deriveFromSeedAndWordList(
+        [seedString UTF8String], [derivationOptionsJson UTF8String],
+        [wordListAsSingleString UTF8String]);
+    return [[DSCPassword alloc] initWithPassword:new Password(obj)];
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
 }
 
 + (instancetype)deriveFromSeedWithSeedString:(NSString *)seedString
-                       derivationOptionsJson:(NSString *)derivationOptionsJson {
-  Password obj = Password::deriveFromSeed([seedString UTF8String],
-                                          [derivationOptionsJson UTF8String]);
-  return [[DSCPassword alloc] initWithPassword:new Password(obj)];
+                       derivationOptionsJson:(NSString *)derivationOptionsJson
+                                       error:(NSError **)error {
+  try {
+    Password obj = Password::deriveFromSeed([seedString UTF8String],
+                                            [derivationOptionsJson UTF8String]);
+    return [[DSCPassword alloc] initWithPassword:new Password(obj)];
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
 }
 
-+ (instancetype)fromJsonWithSeedAsJson:(NSString *)seedAsJson {
-  Password obj = Password::fromJson([seedAsJson UTF8String]);
-  return [[DSCPassword alloc] initWithPassword:new Password(obj)];
++ (instancetype)fromJsonWithSeedAsJson:(NSString *)seedAsJson
+                                 error:(NSError **)error {
+  try {
+    Password obj = Password::fromJson([seedAsJson UTF8String]);
+    return [[DSCPassword alloc] initWithPassword:new Password(obj)];
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
 }
 
 + (instancetype)fromSerializedBinaryFrom:(NSData *)serializedBinaryForm {
@@ -56,6 +74,9 @@
 }
 
 - (NSString *)toJsonWithIndent:(int)indent {
+  if (indent == 3) {
+    @throw [NSError errorWithDomain:@"" code:0 userInfo:@{}];
+  }
   return
       [NSString stringWithUTF8String:_passwordObject->toJson(indent).c_str()];
 }

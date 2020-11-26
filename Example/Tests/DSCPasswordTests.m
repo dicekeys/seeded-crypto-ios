@@ -13,16 +13,22 @@ static NSString *orderedTestKey = @"A1tB2rC3bD4lE5tF6bG1tH1tI1tJ1tK1tL1tM1tN1tO"
 @implementation DSCPasswordTests
 
 - (void)testGenerate {
+  NSError *error;
   DSCPassword *password =
       [DSCPassword deriveFromSeedWithSeedString:seedString
-                          derivationOptionsJson:derivationOptionsJson];
+                          derivationOptionsJson:derivationOptionsJson
+                                          error:&error];
+  XCTAssertNil(error);
   XCTAssertEqualObjects(password.derivationOptionsJson, derivationOptionsJson);
 }
 
 - (void)testToAndFromBinaryForm {
+  NSError *error;
   DSCPassword *password =
       [DSCPassword deriveFromSeedWithSeedString:seedString
-                          derivationOptionsJson:derivationOptionsJson];
+                          derivationOptionsJson:derivationOptionsJson
+                                          error:&error];
+  XCTAssertNil(error);
   DSCPassword *copy =
       [DSCPassword fromSerializedBinaryFrom:[password toSerializedBinaryForm]];
   XCTAssertEqualObjects(copy.derivationOptionsJson,
@@ -31,30 +37,43 @@ static NSString *orderedTestKey = @"A1tB2rC3bD4lE5tF6bG1tH1tI1tJ1tK1tL1tM1tN1tO"
 }
 
 - (void)testToAndFromJson {
+  NSError *error;
   DSCPassword *password =
       [DSCPassword deriveFromSeedWithSeedString:seedString
-                          derivationOptionsJson:derivationOptionsJson];
-  DSCPassword *copy = [DSCPassword fromJsonWithSeedAsJson:[password toJson]];
+                          derivationOptionsJson:derivationOptionsJson
+                                          error:&error];
+  XCTAssertNil(error);
+  DSCPassword *copy = [DSCPassword fromJsonWithSeedAsJson:[password toJson]
+                                                    error:&error];
+  XCTAssertNil(error);
   XCTAssertEqualObjects(copy.derivationOptionsJson,
                         password.derivationOptionsJson);
   XCTAssertEqualObjects(copy.password, password.password);
 }
 
 - (void)testArgon2 {
+  NSError *error;
   DSCPassword *oldPassword =
       [DSCPassword deriveFromSeedWithSeedString:seedString
-                          derivationOptionsJson:derivationOptionsJson];
+                          derivationOptionsJson:derivationOptionsJson
+                                          error:&error];
+  XCTAssertNil(error);
   DSCPassword *password = [DSCPassword
       deriveFromSeedWithSeedString:seedString
              derivationOptionsJson:
-                 @"{\"hashFunction\": \"Argon2id\",\"lengthInBytes\": 64}"];
+                 @"{\"hashFunction\": \"Argon2id\",\"lengthInBytes\": 64}"
+                             error:&error];
+  XCTAssertNil(error);
   XCTAssertNotEqualObjects(oldPassword.password, password.password);
 }
 
 - (void)testGeneratesExtraBytes {
+  NSError *error;
   DSCPassword *password =
       [DSCPassword deriveFromSeedWithSeedString:orderedTestKey
-                          derivationOptionsJson:@"{\"lengthInBits\": 300}"];
+                          derivationOptionsJson:@"{\"lengthInBits\": 300}"
+                                          error:&error];
+  XCTAssertNil(error);
   DSCPassword *copy =
       [DSCPassword fromSerializedBinaryFrom:[password toSerializedBinaryForm]];
   XCTAssertEqualObjects(copy.password, password.password);
@@ -63,6 +82,7 @@ static NSString *orderedTestKey = @"A1tB2rC3bD4lE5tF6bG1tH1tI1tJ1tK1tL1tM1tN1tO"
 }
 
 - (void)testTenWordsViaLengthInWords {
+  NSError *error;
   NSString *derivationOptions = @"{\n\
 \t\"type\": "
                                 @"\"Password\",\n\
@@ -70,7 +90,9 @@ static NSString *orderedTestKey = @"A1tB2rC3bD4lE5tF6bG1tH1tI1tJ1tK1tL1tM1tN1tO"
 }";
   DSCPassword *password =
       [DSCPassword deriveFromSeedWithSeedString:orderedTestKey
-                          derivationOptionsJson:derivationOptions];
+                          derivationOptionsJson:derivationOptions
+                                          error:&error];
+  XCTAssertNil(error);
 
   XCTAssertEqualObjects(
       password.password,
@@ -78,6 +100,7 @@ static NSString *orderedTestKey = @"A1tB2rC3bD4lE5tF6bG1tH1tI1tJ1tK1tL1tM1tN1tO"
 }
 
 - (void)testElevenWordsViaLengthInWords {
+  NSError *error;
   NSString *derivationOptions = @"{\n\
 \t\"type\": "
                                 @"\"Password\",\n\
@@ -86,14 +109,16 @@ static NSString *orderedTestKey = @"A1tB2rC3bD4lE5tF6bG1tH1tI1tJ1tK1tL1tM1tN1tO"
 }";
   DSCPassword *password =
       [DSCPassword deriveFromSeedWithSeedString:orderedTestKey
-                          derivationOptionsJson:derivationOptions];
-
+                          derivationOptionsJson:derivationOptions
+                                          error:&error];
+  XCTAssertNil(error);
   XCTAssertEqualObjects(
       password.password,
       @"11-Clean-snare-donor-petty-grimy-payee-limbs-stole-roman-aloha-dense");
 }
 
 - (void)testThirteenWordsViaDefaultWithAltWordList {
+  NSError *error;
   NSString *derivationOptions = @"{\n\
 \t\"wordList\": "
                                 @"\"EN_1024_words_6_chars_max_ed_4_"
@@ -101,7 +126,9 @@ static NSString *orderedTestKey = @"A1tB2rC3bD4lE5tF6bG1tH1tI1tJ1tK1tL1tM1tN1tO"
 }";
   DSCPassword *password =
       [DSCPassword deriveFromSeedWithSeedString:orderedTestKey
-                          derivationOptionsJson:derivationOptions];
+                          derivationOptionsJson:derivationOptions
+                                          error:&error];
+  XCTAssertNil(error);
 
   XCTAssertEqualObjects(password.password,
                         @"13-Curtsy-jersey-juror-anchor-catsup-parole-kettle-"
@@ -109,9 +136,12 @@ static NSString *orderedTestKey = @"A1tB2rC3bD4lE5tF6bG1tH1tI1tJ1tK1tL1tM1tN1tO"
 }
 
 - (void)testFifteenWordsViaDefaults {
+  NSError *error;
   DSCPassword *password =
       [DSCPassword deriveFromSeedWithSeedString:orderedTestKey
-                          derivationOptionsJson:@"{}"];
+                          derivationOptionsJson:@"{}"
+                                          error:&error];
+  XCTAssertNil(error);
   XCTAssertEqualObjects(password.password,
                         @"15-Unwed-agent-genre-stump-could-limit-shrug-shout-"
                         @"udder-bring-koala-essay-plaza-chaos-clerk");
