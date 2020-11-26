@@ -11,10 +11,14 @@ NS_SWIFT_NAME(SignatureVerificationKey)
 @interface DSCSignatureVerificationKey : NSObject
 
 + (instancetype)deriveFromSeedWithSeedString:(NSString *)seedString
-                       derivationOptionsJson:(NSString *)derivationOptionsJson;
+                       derivationOptionsJson:(NSString *)derivationOptionsJson
+                                       error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)));
 
 + (instancetype)fromJsonWithSignatureVerificationKeyAsJson:
-    (NSString *)signatureVerificationKeyAsJson NS_SWIFT_NAME(from(json:));
+                    (NSString *)signatureVerificationKeyAsJson
+                                                     error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)))NS_SWIFT_NAME(from(json:));
 
 + (instancetype)fromSerializedBinaryFrom:(NSData *)serializedBinaryForm
     NS_SWIFT_NAME(from(serializedBinaryForm:));
@@ -30,9 +34,15 @@ NS_SWIFT_NAME(SignatureVerificationKey)
 - (instancetype)initWithSignatureVerificationKeyObject:
     (struct SignatureVerificationKey *)signatureVerificationKey;
 
-- (BOOL)verifyWithMessage:(NSString *)message signature:(NSData *)signature;
+- (BOOL)verifyWithMessage:(NSString *)message
+                signature:(NSData *)signature
+                    error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)));
 
-- (BOOL)verifyWithData:(NSData *)data signature:(NSData *)signature;
+- (BOOL)verifyWithData:(NSData *)data
+             signature:(NSData *)signature
+                 error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)));
 
 @end
 

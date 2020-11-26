@@ -8,13 +8,18 @@ NS_SWIFT_NAME(Password)
 + (instancetype)
     deriveFromSeedAndWordListWithSeedString:(NSString *)seedString
                       derivationOptionsJson:(NSString *)derivationOptionsJson
-                     wordListAsSingleString:(NSString *)wordListAsSingleString;
+                     wordListAsSingleString:(NSString *)wordListAsSingleString
+                                      error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)));
 
 + (instancetype)deriveFromSeedWithSeedString:(NSString *)seedString
-                       derivationOptionsJson:(NSString *)derivationOptionsJson;
+                       derivationOptionsJson:(NSString *)derivationOptionsJson
+                                       error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)));
 
 + (instancetype)fromJsonWithSeedAsJson:(NSString *)seedAsJson
-    NS_SWIFT_NAME(from(json:));
+                                 error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)))NS_SWIFT_NAME(from(json:));
 
 + (instancetype)fromSerializedBinaryFrom:(NSData *)serializedBinaryForm
     NS_SWIFT_NAME(from(serializedBinaryForm:));

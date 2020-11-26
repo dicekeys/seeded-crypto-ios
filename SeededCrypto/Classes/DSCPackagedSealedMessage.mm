@@ -32,11 +32,17 @@
 }
 
 + (instancetype)fromJsonWithPackagedSealedMessageAsJson:
-    (NSString *)packagedSealedMessageAsJson {
-  PackagedSealedMessage obj =
-      PackagedSealedMessage::fromJson([packagedSealedMessageAsJson UTF8String]);
-  return [[DSCPackagedSealedMessage alloc]
-      initWithPackagedSealedMessage:new PackagedSealedMessage(obj)];
+                    (NSString *)packagedSealedMessageAsJson
+                                                  error:(NSError **)error {
+  try {
+    PackagedSealedMessage obj = PackagedSealedMessage::fromJson(
+        [packagedSealedMessageAsJson UTF8String]);
+    return [[DSCPackagedSealedMessage alloc]
+        initWithPackagedSealedMessage:new PackagedSealedMessage(obj)];
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
 }
 
 + (instancetype)fromSerializedBinaryFrom:(NSData *)serializedBinaryForm {

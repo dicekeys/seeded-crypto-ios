@@ -12,10 +12,12 @@ NS_SWIFT_NAME(UnsealingKey)
 - (instancetype)initWithUnsealingKeyObject:(struct UnsealingKey *)unsealingKey;
 
 + (instancetype)deriveFromSeedWithSeedString:(NSString *)seedString
-                       derivationOptionsJson:(NSString *)derivationOptionsJson;
+                       derivationOptionsJson:(NSString *)derivationOptionsJson
+                                       error:(NSError **)error __attribute__((swift_error(nonnull_error)));
 
 + (instancetype)fromJsonWithUnsealingKeyAsJson:(NSString *)unsealingKeyAsJson
-    NS_SWIFT_NAME(from(json:));
+                                         error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)))NS_SWIFT_NAME(from(json:));
 
 + (instancetype)fromSerializedBinaryFrom:(NSData *)serializedBinaryForm
     NS_SWIFT_NAME(from(serializedBinaryForm:));
@@ -26,47 +28,69 @@ NS_SWIFT_NAME(UnsealingKey)
 
 + (NSData *)unsealWithPackagedSealedMessage:
                 (DSCPackagedSealedMessage *)packagedSealedMessage
-                                 seedString:(NSString *)seedString;
+                                 seedString:(NSString *)seedString
+                                      error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)));
 
 + (NSData *)unsealWithJsonPackagedSealedMessage:
                 (NSString *)jsonPackagedSealedMessage
-                                     seedString:(NSString *)seedString;
+                                     seedString:(NSString *)seedString
+                                          error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)));
 
 + (NSData *)unsealWithBinaryPackagedSealedMessage:
                 (NSData *)binaryPackagedSealedMessage
-                                       seedString:(NSString *)seedString;
+                                       seedString:(NSString *)seedString
+                                            error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)));
 
 + (DSCPackagedSealedMessage *)sealWithMessage:(NSString *)message
                                    seedString:(NSString *)seedString
-                            derivationOptions:(NSString *)derivationOptions;
+                            derivationOptions:(NSString *)derivationOptions
+                                        error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)));
 
 + (DSCPackagedSealedMessage *)sealWithMessage:(NSString *)message
                         unsealingInstrucation:(NSString *)unsealingInstrucations
                                    seedString:(NSString *)seedString
-                            derivationOptions:(NSString *)derivationOptions;
+                            derivationOptions:(NSString *)derivationOptions
+                                        error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)));
 
 + (DSCPackagedSealedMessage *)sealWithData:(NSData *)data
                                 seedString:(NSString *)seedString
-                         derivationOptions:(NSString *)derivationOptions;
+                         derivationOptions:(NSString *)derivationOptions
+                                     error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)));
 
 + (DSCPackagedSealedMessage *)sealWithData:(NSData *)data
                      unsealingInstrucation:(NSString *)unsealingInstrucations
                                 seedString:(NSString *)seedString
-                         derivationOptions:(NSString *)derivationOptions;
+                         derivationOptions:(NSString *)derivationOptions
+                                     error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)));
 
 - (DSCSealingKey *)sealingKey;
 
 - (NSData *)unsealWithCiphertext:(NSData *)ciphertext
-           unsealingInstructions:(NSString *)unsealingInstructions;
+           unsealingInstructions:(NSString *)unsealingInstructions
+                           error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)));
 
 - (NSData *)unsealWithPackagedSealedMessage:
-    (DSCPackagedSealedMessage *)packagedSealedMessage;
+                (DSCPackagedSealedMessage *)packagedSealedMessage
+                                      error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)));
 
 - (NSData *)unsealWithJsonPackagedSealedMessage:
-    (NSString *)packagedSealedMessageJson;
+                (NSString *)packagedSealedMessageJson
+                                          error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)));
 
 - (NSData *)unsealWithBinaryPackagedSealedMessage:
-    (NSData *)binaryPackagedSealedMessage;
+                (NSData *)binaryPackagedSealedMessage
+                                            error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)));
 
 @property(readonly) NSData *sealingKeyBytes;
 

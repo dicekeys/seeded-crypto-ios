@@ -1,4 +1,5 @@
 #import "DSCHelper.h"
+#include "exceptions.hpp"
 #include "sodium-buffer.hpp"
 
 NSData *sodiumBufferToData(SodiumBuffer sodiumBuffer) {
@@ -35,4 +36,10 @@ std::vector<unsigned char> stringToUnsignedCharVector(NSString *str) {
   NSUInteger size = [str lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
   unsigned char *array = (unsigned char *)[str UTF8String];
   return std::vector<unsigned char>(array, array + size);
+}
+
+NSError *cppExceptionToError(const std::exception &e) {
+  NSDictionary *info =
+      @{NSLocalizedDescriptionKey : [NSString stringWithUTF8String:e.what()]};
+  return [NSError errorWithDomain:@"SeededCrypto" code:0 userInfo:info];
 }

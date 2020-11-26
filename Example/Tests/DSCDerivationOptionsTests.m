@@ -11,10 +11,13 @@ static NSString *derivationOptionsJson = @"{\"lengthInBytes\": 64}";
 @implementation DSCDerivationOptionsTests
 
 - (void)testDerivePrimarySecret {
+  NSError *error;
   NSData *options = [DSCDerivationOptions
       derivePrimarySecretWithSeedString:seedString
-                  derivationOptionsJson:derivationOptionsJson];
+                  derivationOptionsJson:derivationOptionsJson
+                                  error:&error];
   XCTAssertEqual(options.length, 64 * sizeof(unsigned char));
+  XCTAssertNil(error);
 }
 
 @end

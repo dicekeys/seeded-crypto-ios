@@ -17,20 +17,33 @@
 }
 
 + (instancetype)deriveFromSeedWithSeedString:(NSString *)seedString
-                       derivationOptionsJson:(NSString *)derivationOptionsJson {
-  SignatureVerificationKey key =
-      SigningKey::deriveFromSeed([seedString UTF8String],
-                                 [derivationOptionsJson UTF8String])
-          .getSignatureVerificationKey();
-  return [[DSCSignatureVerificationKey alloc] init];
+                       derivationOptionsJson:(NSString *)derivationOptionsJson
+                                       error:(NSError **)error {
+  try {
+    SignatureVerificationKey key =
+        SigningKey::deriveFromSeed([seedString UTF8String],
+                                   [derivationOptionsJson UTF8String])
+            .getSignatureVerificationKey();
+    return [[DSCSignatureVerificationKey alloc] init];
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
 }
 
 + (instancetype)fromJsonWithSignatureVerificationKeyAsJson:
-    (NSString *)signatureVerificationKeyAsJson {
-  SignatureVerificationKey key = SignatureVerificationKey::fromJson(
-      [signatureVerificationKeyAsJson UTF8String]);
-  return [[DSCSignatureVerificationKey alloc]
-      initWithSignatureVerificationKeyObject:new SignatureVerificationKey(key)];
+                    (NSString *)signatureVerificationKeyAsJson
+                                                     error:(NSError **)error {
+  try {
+    SignatureVerificationKey key = SignatureVerificationKey::fromJson(
+        [signatureVerificationKeyAsJson UTF8String]);
+    return [[DSCSignatureVerificationKey alloc]
+        initWithSignatureVerificationKeyObject:new SignatureVerificationKey(
+                                                   key)];
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
 }
 
 + (instancetype)fromSerializedBinaryFrom:(NSData *)serializedBinaryForm {
@@ -62,15 +75,29 @@
       _signatureVerificationKeyObject->signatureVerificationKeyBytes);
 }
 
-- (BOOL)verifyWithMessage:(NSString *)message signature:(NSData *)signature {
-  return _signatureVerificationKeyObject->verify(
-      stringToUnsignedCharArray(message), message.length,
-      dataToUnsignedCharVector(signature));
+- (BOOL)verifyWithMessage:(NSString *)message
+                signature:(NSData *)signature
+                    error:(NSError **)error {
+  try {
+    return _signatureVerificationKeyObject->verify(
+        stringToUnsignedCharArray(message), message.length,
+        dataToUnsignedCharVector(signature));
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return FALSE;
+  }
 }
 
-- (BOOL)verifyWithData:(NSData *)data signature:(NSData *)signature {
-  return _signatureVerificationKeyObject->verify(
-      dataToSodiumBuffer(data), dataToUnsignedCharVector(signature));
+- (BOOL)verifyWithData:(NSData *)data
+             signature:(NSData *)signature
+                 error:(NSError **)error {
+  try {
+    return _signatureVerificationKeyObject->verify(
+        dataToSodiumBuffer(data), dataToUnsignedCharVector(signature));
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return FALSE;
+  }
 }
 
 - (void)dealloc {

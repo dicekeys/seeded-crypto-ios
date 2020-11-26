@@ -11,10 +11,13 @@ NS_SWIFT_NAME(SealingKey)
 - (instancetype)initWithSealingKeyObject:(struct SealingKey *)sealingKey;
 
 + (instancetype)deriveFromSeedWithSeedString:(NSString *)seedString
-                       derivationOptionsJson:(NSString *)derivationOptionsJson;
+                       derivationOptionsJson:(NSString *)derivationOptionsJson
+                                       error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)));
 
 + (instancetype)fromJsonWithSealingKeyAsJson:(NSString *)sealingKeyAsJson
-    NS_SWIFT_NAME(from(json:));
+                                       error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)))NS_SWIFT_NAME(from(json:));
 
 + (instancetype)fromSerializedBinaryFrom:(NSData *)serializedBinaryForm
     NS_SWIFT_NAME(from(serializedBinaryForm:));
@@ -23,25 +26,41 @@ NS_SWIFT_NAME(SealingKey)
 
 - (NSData *)toSerializedBinaryForm;
 
-- (DSCPackagedSealedMessage *)sealWithMessage:(NSString *)message;
+- (DSCPackagedSealedMessage *)sealWithMessage:(NSString *)message
+                                        error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)));
 
 - (DSCPackagedSealedMessage *)sealWithMessage:(NSString *)message
-                          sealingInstructions:(NSString *)sealingInstructions;
-
-- (NSData *)sealToCiphertextOnlyWithMessage:(NSString *)message;
+                          sealingInstructions:(NSString *)sealingInstructions
+                                        error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)));
 
 - (NSData *)sealToCiphertextOnlyWithMessage:(NSString *)message
-                        sealingInstructions:(NSString *)sealingInstructions;
+                                      error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)));
 
-- (DSCPackagedSealedMessage *)sealWithData:(NSData *)data;
+- (NSData *)sealToCiphertextOnlyWithMessage:(NSString *)message
+                        sealingInstructions:(NSString *)sealingInstructions
+                                      error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)));
 
 - (DSCPackagedSealedMessage *)sealWithData:(NSData *)data
-                       sealingInstructions:(NSString *)sealingInstructions;
+                                     error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)));
 
-- (NSData *)sealToCiphertextOnlyWithData:(NSData *)data;
+- (DSCPackagedSealedMessage *)sealWithData:(NSData *)data
+                       sealingInstructions:(NSString *)sealingInstructions
+                                     error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)));
 
 - (NSData *)sealToCiphertextOnlyWithData:(NSData *)data
-                     sealingInstructions:(NSString *)sealingInstructions;
+                                   error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)));
+
+- (NSData *)sealToCiphertextOnlyWithData:(NSData *)data
+                     sealingInstructions:(NSString *)sealingInstructions
+                                   error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)));
 
 @property(readonly) NSString *derivationOptionsJson;
 

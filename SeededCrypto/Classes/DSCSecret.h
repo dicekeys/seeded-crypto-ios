@@ -6,13 +6,16 @@ NS_SWIFT_NAME(Secret)
 @interface DSCSecret : NSObject
 
 + (instancetype)fromJsonWithSeedAsString:(NSString *)seedAsString
-    NS_SWIFT_NAME(from(json:));
+                                   error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)))NS_SWIFT_NAME(from(json:));
 
 + (instancetype)fromSerializedBinaryFrom:(NSData *)serializedBinaryForm
     NS_SWIFT_NAME(from(serializedBinaryForm:));
 
 + (instancetype)deriveFromSeedWithSeedString:(NSString *)seedString
-                       derivationOptionsJson:(NSString *)derivationOptionsJson;
+                       derivationOptionsJson:(NSString *)derivationOptionsJson
+                                       error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)));
 
 - (NSString *)toJson;
 

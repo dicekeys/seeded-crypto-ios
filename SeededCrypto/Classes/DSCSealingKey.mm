@@ -16,13 +16,21 @@
 }
 
 + (instancetype)deriveFromSeedWithSeedString:(NSString *)seedString
-                       derivationOptionsJson:(NSString *)derivationOptionsJson {
+                       derivationOptionsJson:(NSString *)derivationOptionsJson
+                                       error:(NSError **)error {
+  // TODO: implement
   return NULL;
 }
 
-+ (instancetype)fromJsonWithSealingKeyAsJson:(NSString *)sealingKeyAsJson {
-  SealingKey obj = SealingKey::fromJson([sealingKeyAsJson UTF8String]);
-  return [[DSCSealingKey alloc] initWithSealingKeyObject:new SealingKey(obj)];
++ (instancetype)fromJsonWithSealingKeyAsJson:(NSString *)sealingKeyAsJson
+                                       error:(NSError **)error {
+  try {
+    SealingKey obj = SealingKey::fromJson([sealingKeyAsJson UTF8String]);
+    return [[DSCSealingKey alloc] initWithSealingKeyObject:new SealingKey(obj)];
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
 }
 
 + (instancetype)fromSerializedBinaryFrom:(NSData *)serializedBinaryForm {
@@ -40,63 +48,111 @@
   return sodiumBufferToData(sodiumBuffer);
 }
 
-- (DSCPackagedSealedMessage *)sealWithMessage:(NSString *)message {
-  PackagedSealedMessage packagedSealedMessage =
-      _sealingKey->seal([message UTF8String]);
-  return [[DSCPackagedSealedMessage alloc]
-      initWithPackagedSealedMessage:new PackagedSealedMessage(
-                                        packagedSealedMessage)];
+- (DSCPackagedSealedMessage *)sealWithMessage:(NSString *)message
+                                        error:(NSError **)error {
+  try {
+    PackagedSealedMessage packagedSealedMessage =
+        _sealingKey->seal([message UTF8String]);
+    return [[DSCPackagedSealedMessage alloc]
+        initWithPackagedSealedMessage:new PackagedSealedMessage(
+                                          packagedSealedMessage)];
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
 }
 
 - (DSCPackagedSealedMessage *)sealWithMessage:(NSString *)message
-                          sealingInstructions:(NSString *)sealingInstructions {
-  PackagedSealedMessage packagedSealedMessage =
-      _sealingKey->seal(stringToUnsignedCharArray(message), message.length,
-                        [sealingInstructions UTF8String]);
-  return [[DSCPackagedSealedMessage alloc]
-      initWithPackagedSealedMessage:new PackagedSealedMessage(
-                                        packagedSealedMessage)];
-}
-
-- (NSData *)sealToCiphertextOnlyWithMessage:(NSString *)message {
-  return sodiumBufferToData(_sealingKey->sealToCiphertextOnly(
-      stringToUnsignedCharArray(message), message.length));
+                          sealingInstructions:(NSString *)sealingInstructions
+                                        error:(NSError **)error {
+  try {
+    PackagedSealedMessage packagedSealedMessage =
+        _sealingKey->seal(stringToUnsignedCharArray(message), message.length,
+                          [sealingInstructions UTF8String]);
+    return [[DSCPackagedSealedMessage alloc]
+        initWithPackagedSealedMessage:new PackagedSealedMessage(
+                                          packagedSealedMessage)];
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
 }
 
 - (NSData *)sealToCiphertextOnlyWithMessage:(NSString *)message
-                        sealingInstructions:(NSString *)sealingInstructions {
-  return sodiumBufferToData(_sealingKey->sealToCiphertextOnly(
-      stringToUnsignedCharArray(message), message.length,
-      [sealingInstructions UTF8String]));
+                                      error:(NSError **)error {
+  try {
+    return sodiumBufferToData(_sealingKey->sealToCiphertextOnly(
+        stringToUnsignedCharArray(message), message.length));
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
 }
 
-- (DSCPackagedSealedMessage *)sealWithData:(NSData *)data {
-  PackagedSealedMessage packagedSealedMessage =
-      _sealingKey->seal(dataToUnsignedCharVector(data));
-  return [[DSCPackagedSealedMessage alloc]
-      initWithPackagedSealedMessage:new PackagedSealedMessage(
-                                        packagedSealedMessage)];
+- (NSData *)sealToCiphertextOnlyWithMessage:(NSString *)message
+                        sealingInstructions:(NSString *)sealingInstructions
+                                      error:(NSError **)error {
+  try {
+    return sodiumBufferToData(_sealingKey->sealToCiphertextOnly(
+        stringToUnsignedCharArray(message), message.length,
+        [sealingInstructions UTF8String]));
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
 }
 
 - (DSCPackagedSealedMessage *)sealWithData:(NSData *)data
-                       sealingInstructions:(NSString *)sealingInstructions {
-  PackagedSealedMessage packagedSealedMessage = _sealingKey->seal(
-      dataToSodiumBuffer(data), [sealingInstructions UTF8String]);
-  return [[DSCPackagedSealedMessage alloc]
-      initWithPackagedSealedMessage:new PackagedSealedMessage(
-                                        packagedSealedMessage)];
+                                     error:(NSError **)error {
+  try {
+    PackagedSealedMessage packagedSealedMessage =
+        _sealingKey->seal(dataToUnsignedCharVector(data));
+    return [[DSCPackagedSealedMessage alloc]
+        initWithPackagedSealedMessage:new PackagedSealedMessage(
+                                          packagedSealedMessage)];
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
 }
 
-- (NSData *)sealToCiphertextOnlyWithData:(NSData *)data {
-  return sodiumBufferToData(
-      _sealingKey->sealToCiphertextOnly(dataToSodiumBuffer(data)));
+- (DSCPackagedSealedMessage *)sealWithData:(NSData *)data
+                       sealingInstructions:(NSString *)sealingInstructions
+                                     error:(NSError **)error {
+  try {
+    PackagedSealedMessage packagedSealedMessage = _sealingKey->seal(
+        dataToSodiumBuffer(data), [sealingInstructions UTF8String]);
+    return [[DSCPackagedSealedMessage alloc]
+        initWithPackagedSealedMessage:new PackagedSealedMessage(
+                                          packagedSealedMessage)];
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
 }
 
 - (NSData *)sealToCiphertextOnlyWithData:(NSData *)data
-                     sealingInstructions:(NSString *)sealingInstructions {
-  return sodiumBufferToData(_sealingKey->sealToCiphertextOnly(
-      dataToSodiumBuffer(data),
-      stringToUnsignedCharVector(sealingInstructions)));
+                                   error:(NSError **)error {
+  try {
+    return sodiumBufferToData(
+        _sealingKey->sealToCiphertextOnly(dataToSodiumBuffer(data)));
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
+}
+
+- (NSData *)sealToCiphertextOnlyWithData:(NSData *)data
+                     sealingInstructions:(NSString *)sealingInstructions
+                                   error:(NSError **)error {
+  try {
+    return sodiumBufferToData(_sealingKey->sealToCiphertextOnly(
+        dataToSodiumBuffer(data),
+        stringToUnsignedCharVector(sealingInstructions)));
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
 }
 
 - (NSString *)derivationOptionsJson {

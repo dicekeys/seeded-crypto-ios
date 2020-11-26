@@ -14,42 +14,57 @@ static NSString *unsealingInstructions =
 @implementation DSCSecretTests
 
 - (void)testGenerate {
+  NSError *error;
   DSCSecret *secret =
       [DSCSecret deriveFromSeedWithSeedString:seedString
-                        derivationOptionsJson:derivationOptionsJson];
+                        derivationOptionsJson:derivationOptionsJson
+                                        error:&error];
+  XCTAssertNil(error);
   XCTAssertEqualObjects(secret.derivationOptionsJson, derivationOptionsJson);
   XCTAssertEqual(secret.secretBytes.length * sizeof(unsigned char), 64);
 }
 
 - (void)testToAndFromBinaryForm {
+  NSError *error;
   DSCSecret *secret =
       [DSCSecret deriveFromSeedWithSeedString:seedString
-                        derivationOptionsJson:derivationOptionsJson];
+                        derivationOptionsJson:derivationOptionsJson
+                                        error:&error];
   DSCSecret *copy =
       [DSCSecret fromSerializedBinaryFrom:[secret toSerializedBinaryForm]];
+  XCTAssertNil(error);
   XCTAssertEqualObjects(copy.derivationOptionsJson,
                         secret.derivationOptionsJson);
   XCTAssertEqualObjects(copy.secretBytes, secret.secretBytes);
 }
 
 - (void)testToAndFromJson {
+  NSError *error;
   DSCSecret *secret =
       [DSCSecret deriveFromSeedWithSeedString:seedString
-                        derivationOptionsJson:derivationOptionsJson];
-  DSCSecret *copy = [DSCSecret fromJsonWithSeedAsString:[secret toJson]];
+                        derivationOptionsJson:derivationOptionsJson
+                                        error:&error];
+  XCTAssertNil(error);
+  DSCSecret *copy = [DSCSecret fromJsonWithSeedAsString:[secret toJson]
+                                                  error:&error];
+  XCTAssertNil(error);
   XCTAssertEqualObjects(copy.derivationOptionsJson,
                         secret.derivationOptionsJson);
   XCTAssertEqualObjects(copy.secretBytes, secret.secretBytes);
 }
 
 - (void)testUseArgon2 {
+  NSError *error;
   DSCSecret *oldSecret =
       [DSCSecret deriveFromSeedWithSeedString:seedString
-                        derivationOptionsJson:derivationOptionsJson];
+                        derivationOptionsJson:derivationOptionsJson
+                                        error:&error];
   DSCSecret *secret = [DSCSecret
       deriveFromSeedWithSeedString:seedString
              derivationOptionsJson:
-                 @"{\"hashFunction\": \"Argon2id\", \"lengthInBytes\": 64}"];
+                 @"{\"hashFunction\": \"Argon2id\", \"lengthInBytes\": 64}"
+                             error:&error];
+  XCTAssertNil(error);
   XCTAssertNotEqualObjects(secret.secretBytes, oldSecret.secretBytes);
 }
 

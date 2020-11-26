@@ -6,22 +6,33 @@ NS_ASSUME_NONNULL_BEGIN
 NS_SWIFT_NAME(SigningKey)
 @interface DSCSigningKey : NSObject
 + (instancetype)deriveFromSeedWithSeedString:(NSString *)seedString
-                       derivationOptionsJson:(NSString *)derivationOptionsJson;
+                       derivationOptionsJson:(NSString *)derivationOptionsJson
+                                       error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)));
 
 + (NSData *)generateSignatureWithMessage:(NSString *)message
                               seedString:(NSString *)seedString
-                   derivationOptionsJson:(NSString *)derivationOptionsJson;
+                   derivationOptionsJson:(NSString *)derivationOptionsJson
+                                   error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)));
 
 + (NSData *)generateSignatureWithData:(NSData *)data
                            seedString:(NSString *)seedString
-                derivationOptionsJson:(NSString *)derivationOptionsJson;
+                derivationOptionsJson:(NSString *)derivationOptionsJson
+                                error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)));
 
-- (NSData *)generateSignatureWithMessage:(NSString *)message;
+- (NSData *)generateSignatureWithMessage:(NSString *)message
+                                   error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)));
 
-- (NSData *)generateSignatureWithData:(NSData *)data;
+- (NSData *)generateSignatureWithData:(NSData *)data
+                                error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)));
 
 + (instancetype)fromJsonWithSeedAsString:(NSString *)seedAsString
-    NS_SWIFT_NAME(from(json:));
+                                   error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)))NS_SWIFT_NAME(from(json:));
 
 + (instancetype)fromSerializedBinaryFrom:(NSData *)serializedBinaryForm
     NS_SWIFT_NAME(from(serializedBinaryForm:));

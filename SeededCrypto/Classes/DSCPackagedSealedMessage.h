@@ -15,7 +15,9 @@ NS_SWIFT_NAME(PackagedSealedMessage)
              unsealingInstructions:(NSString *)unsealingInstructions;
 
 + (instancetype)fromJsonWithPackagedSealedMessageAsJson:
-    (NSString *)packagedSealedMessageAsJson NS_SWIFT_NAME(from(json:));
+                    (NSString *)packagedSealedMessageAsJson
+                                                  error:(NSError **)error
+    __attribute__((swift_error(nonnull_error)))NS_SWIFT_NAME(from(json:));
 
 + (instancetype)fromSerializedBinaryFrom:(NSData *)serializedBinaryForm
     NS_SWIFT_NAME(from(serializedBinaryForm:));

@@ -19,9 +19,15 @@
   return self;
 }
 
-+ (instancetype)fromJsonWithSeedAsString:(NSString *)seedAsString {
-  Secret obj = Secret::fromJson([seedAsString UTF8String]);
-  return [[DSCSecret alloc] initWithSecretObject:new Secret(obj)];
++ (instancetype)fromJsonWithSeedAsString:(NSString *)seedAsString
+                                   error:(NSError **)error {
+  try {
+    Secret obj = Secret::fromJson([seedAsString UTF8String]);
+    return [[DSCSecret alloc] initWithSecretObject:new Secret(obj)];
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
 }
 
 + (instancetype)fromSerializedBinaryFrom:(NSData *)serializedBinaryForm {
@@ -31,10 +37,16 @@
 }
 
 + (instancetype)deriveFromSeedWithSeedString:(NSString *)seedString
-                       derivationOptionsJson:(NSString *)derivationOptionsJson {
-  Secret secret = Secret::deriveFromSeed([seedString UTF8String],
-                                         [derivationOptionsJson UTF8String]);
-  return [[DSCSecret alloc] initWithSecretObject:new Secret(secret)];
+                       derivationOptionsJson:(NSString *)derivationOptionsJson
+                                       error:(NSError **)error {
+  try {
+    Secret secret = Secret::deriveFromSeed([seedString UTF8String],
+                                           [derivationOptionsJson UTF8String]);
+    return [[DSCSecret alloc] initWithSecretObject:new Secret(secret)];
+  } catch (const std::exception &e) {
+    *error = cppExceptionToError(e);
+    return nil;
+  }
 }
 
 - (NSString *)toJson {
