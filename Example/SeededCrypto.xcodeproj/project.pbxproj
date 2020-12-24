@@ -43,7 +43,7 @@
 
 /* Begin PBXFileReference section */
 		1DB38EA06CCEC695B18AC58D /* Pods_SeededCrypto_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SeededCrypto_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		2319F0AD72E16638959A5875 /* SeededCrypto.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SeededCrypto.podspec; path = ../SeededCrypto.podspec; sourceTree = "<group>"; };
+		2319F0AD72E16638959A5875 /* SeededCrypto.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SeededCrypto.podspec; path = ../SeededCrypto.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		4267A105A69897A5C51739F9 /* Pods_SeededCrypto_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SeededCrypto_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58A195388D20070C39A /* SeededCrypto_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeededCrypto_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -71,6 +71,7 @@
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8FFD134AB0CB3FCC084377DC /* Pods-SeededCrypto_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeededCrypto_Tests.release.xcconfig"; path = "Target Support Files/Pods-SeededCrypto_Tests/Pods-SeededCrypto_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		D0F6D75FD2374C1F64A9E25E /* Pods-SeededCrypto_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeededCrypto_Example.debug.xcconfig"; path = "Target Support Files/Pods-SeededCrypto_Example/Pods-SeededCrypto_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		EC5611DE258B666800A056B8 /* SeededCrypto_Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SeededCrypto_Example.entitlements; sourceTree = "<group>"; };
 		ECA2503C2546877100A1225B /* DSCDerivationOptionsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DSCDerivationOptionsTests.m; sourceTree = "<group>"; };
 		ECA2504525468D3300A1225B /* DSCSecretTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DSCSecretTests.m; sourceTree = "<group>"; };
 		ECA2504F2546A57300A1225B /* DSCPasswordTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DSCPasswordTests.m; sourceTree = "<group>"; };
@@ -109,6 +110,7 @@
 		6003F581195388D10070C39A = {
 			isa = PBXGroup;
 			children = (
+				EC5611DE258B666800A056B8 /* SeededCrypto_Example.entitlements */,
 				60FF7A9C1954A5C5007DD14C /* Podspec Metadata */,
 				6003F593195388D20070C39A /* Example for SeededCrypto */,
 				6003F5B5195388D20070C39A /* Tests */,
@@ -264,6 +266,9 @@
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = bakhtiyor;
 				TargetAttributes = {
+					6003F589195388D20070C39A = {
+						DevelopmentTeam = 36FT2XFLPU;
+					};
 					6003F5AD195388D20070C39A = {
 						LastSwiftMigration = 1220;
 						TestTargetID = 6003F589195388D20070C39A;
@@ -517,12 +522,15 @@
 			baseConfigurationReference = D0F6D75FD2374C1F64A9E25E /* Pods-SeededCrypto_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SeededCrypto_Example.entitlements;
+				DEVELOPMENT_TEAM = 36FT2XFLPU;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SeededCrypto/SeededCrypto-Prefix.pch";
 				INFOPLIST_FILE = "SeededCrypto/SeededCrypto-Info.plist";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 4.0;
 				WRAPPER_EXTENSION = app;
 			};
@@ -533,12 +541,15 @@
 			baseConfigurationReference = 72CE6B553D07CD4E9A0B2011 /* Pods-SeededCrypto_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SeededCrypto_Example.entitlements;
+				DEVELOPMENT_TEAM = 36FT2XFLPU;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SeededCrypto/SeededCrypto-Prefix.pch";
 				INFOPLIST_FILE = "SeededCrypto/SeededCrypto-Info.plist";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 4.0;
 				WRAPPER_EXTENSION = app;
 			};
