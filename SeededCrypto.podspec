@@ -14,6 +14,7 @@ Dicekeys Seeded Cryptography Library for iOS
   s.source           = { :git => 'https://github.com/dicekeys/seeded-crypto-ios.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '9.3'
+  s.osx.deployment_target  = '11.0'
 
   s.source_files = 'SeededCrypto/Classes/**/*',
     'SeededCrypto/seeded-crypto/lib-seeded/**/*.{cpp,hpp,h}',
