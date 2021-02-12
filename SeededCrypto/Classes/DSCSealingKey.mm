@@ -160,4 +160,8 @@
       stringWithUTF8String:_sealingKey->derivationOptionsJson.c_str()];
 }
 
+- (NSData *)sealingKeyBytes {
+  return sodiumBufferToData(_sealingKey->sealingKeyBytes);
+}
+
 @end
