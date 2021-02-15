@@ -21,12 +21,12 @@
 
 + (instancetype)
     deriveFromSeedAndWordListWithSeedString:(NSString *)seedString
-                      derivationOptionsJson:(NSString *)derivationOptionsJson
+                      recipe:(NSString *)recipe
                      wordListAsSingleString:(NSString *)wordListAsSingleString
                                       error:(NSError **)error {
   try {
     Password obj = Password::deriveFromSeedAndWordList(
-        [seedString UTF8String], [derivationOptionsJson UTF8String],
+        [seedString UTF8String], [recipe UTF8String],
         [wordListAsSingleString UTF8String]);
     return [[DSCPassword alloc] initWithPassword:new Password(obj)];
   } catch (const std::exception &e) {
@@ -36,11 +36,11 @@
 }
 
 + (instancetype)deriveFromSeedWithSeedString:(NSString *)seedString
-                       derivationOptionsJson:(NSString *)derivationOptionsJson
+                       recipe:(NSString *)recipe
                                        error:(NSError **)error {
   try {
     Password obj = Password::deriveFromSeed([seedString UTF8String],
-                                            [derivationOptionsJson UTF8String]);
+                                            [recipe UTF8String]);
     return [[DSCPassword alloc] initWithPassword:new Password(obj)];
   } catch (const std::exception &e) {
     *error = cppExceptionToError(e);
@@ -94,9 +94,9 @@
                                        // dataWithSodiumBuffer:_passwordObject->toSerializedBinaryForm()];
 }
 
-- (NSString *)derivationOptionsJson {
+- (NSString *)recipe {
   return [NSString
-      stringWithUTF8String:_passwordObject->derivationOptionsJson.c_str()];
+      stringWithUTF8String:_passwordObject->recipe.c_str()];
 }
 
 - (void)dealloc {

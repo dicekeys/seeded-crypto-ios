@@ -1,20 +1,20 @@
-#import <SeededCrypto/DSCDerivationOptions.h>
+#import <SeededCrypto/DSCRecipeObject.h>
 #import <XCTest/XCTest.h>
 
-@interface DSCDerivationOptionsTests : XCTestCase
+@interface DSCRecipeObjectTests : XCTestCase
 
 @end
 
 static NSString *seedString = @"Avocado";
-static NSString *derivationOptionsJson = @"{\"lengthInBytes\": 64}";
+static NSString *recipe = @"{\"lengthInBytes\": 64}";
 
-@implementation DSCDerivationOptionsTests
+@implementation DSCRecipeObjectTests
 
 - (void)testDerivePrimarySecret {
   NSError *error;
-  NSData *options = [DSCDerivationOptions
+  NSData *options = [DSCRecipeObject
       derivePrimarySecretWithSeedString:seedString
-                  derivationOptionsJson:derivationOptionsJson
+                  recipe:recipe
                                   error:&error];
   XCTAssertEqual(options.length, 64 * sizeof(unsigned char));
   XCTAssertNil(error);

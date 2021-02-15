@@ -6,7 +6,7 @@
 @end
 
 static NSString *seedString = @"Avocado";
-static NSString *derivationOptionsJson = @"{\"lengthInBytes\": 64}";
+static NSString *recipe = @"{\"lengthInBytes\": 64}";
 static NSString *plaintext = @"This seals the deal!";
 static NSString *unsealingInstructions =
     @"Go to jail. Go directly to jail. Do not pass go. Do not collected $200.";
@@ -17,10 +17,10 @@ static NSString *unsealingInstructions =
   NSError *error;
   DSCSecret *secret =
       [DSCSecret deriveFromSeedWithSeedString:seedString
-                        derivationOptionsJson:derivationOptionsJson
+                        recipe:recipe
                                         error:&error];
   XCTAssertNil(error);
-  XCTAssertEqualObjects(secret.derivationOptionsJson, derivationOptionsJson);
+  XCTAssertEqualObjects(secret.recipe, recipe);
   XCTAssertEqual(secret.secretBytes.length * sizeof(unsigned char), 64);
 }
 
@@ -28,13 +28,13 @@ static NSString *unsealingInstructions =
   NSError *error;
   DSCSecret *secret =
       [DSCSecret deriveFromSeedWithSeedString:seedString
-                        derivationOptionsJson:derivationOptionsJson
+                        recipe:recipe
                                         error:&error];
   DSCSecret *copy =
       [DSCSecret fromSerializedBinaryFrom:[secret toSerializedBinaryForm]];
   XCTAssertNil(error);
-  XCTAssertEqualObjects(copy.derivationOptionsJson,
-                        secret.derivationOptionsJson);
+  XCTAssertEqualObjects(copy.recipe,
+                        secret.recipe);
   XCTAssertEqualObjects(copy.secretBytes, secret.secretBytes);
 }
 
@@ -42,14 +42,14 @@ static NSString *unsealingInstructions =
   NSError *error;
   DSCSecret *secret =
       [DSCSecret deriveFromSeedWithSeedString:seedString
-                        derivationOptionsJson:derivationOptionsJson
+                        recipe:recipe
                                         error:&error];
   XCTAssertNil(error);
   DSCSecret *copy = [DSCSecret fromJsonWithSeedAsString:[secret toJson]
                                                   error:&error];
   XCTAssertNil(error);
-  XCTAssertEqualObjects(copy.derivationOptionsJson,
-                        secret.derivationOptionsJson);
+  XCTAssertEqualObjects(copy.recipe,
+                        secret.recipe);
   XCTAssertEqualObjects(copy.secretBytes, secret.secretBytes);
 }
 
@@ -57,11 +57,11 @@ static NSString *unsealingInstructions =
   NSError *error;
   DSCSecret *oldSecret =
       [DSCSecret deriveFromSeedWithSeedString:seedString
-                        derivationOptionsJson:derivationOptionsJson
+                        recipe:recipe
                                         error:&error];
   DSCSecret *secret = [DSCSecret
       deriveFromSeedWithSeedString:seedString
-             derivationOptionsJson:
+             recipe:
                  @"{\"hashFunction\": \"Argon2id\", \"lengthInBytes\": 64}"
                              error:&error];
   XCTAssertNil(error);
@@ -71,6 +71,6 @@ static NSString *unsealingInstructions =
 - (void)testMatchesCPP {
   // DSCSecret* secret = [DSCSecret
   // deriveFromSeedWithSeedString:@"A1tB2rC3bD4lE5tF6bG1tH1tI1tJ1tK1tL1tM1tN1tO1tP1tR1tS1tT1tU1tV1tW1tX1tY1tZ1t"
-  // derivationOptionsJson:@"{}"];
+  // recipe:@"{}"];
 }
 @end

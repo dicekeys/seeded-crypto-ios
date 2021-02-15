@@ -37,11 +37,11 @@
 }
 
 + (instancetype)deriveFromSeedWithSeedString:(NSString *)seedString
-                       derivationOptionsJson:(NSString *)derivationOptionsJson
+                       recipe:(NSString *)recipe
                                        error:(NSError **)error {
   try {
     Secret secret = Secret::deriveFromSeed([seedString UTF8String],
-                                           [derivationOptionsJson UTF8String]);
+                                           [recipe UTF8String]);
     return [[DSCSecret alloc] initWithSecretObject:new Secret(secret)];
   } catch (const std::exception &e) {
     *error = cppExceptionToError(e);
@@ -62,9 +62,9 @@
   return sodiumBufferToData(_secretObject->secretBytes);
 }
 
-- (NSString *)derivationOptionsJson {
+- (NSString *)recipe {
   return [NSString
-      stringWithUTF8String:_secretObject->derivationOptionsJson.c_str()];
+      stringWithUTF8String:_secretObject->recipe.c_str()];
 }
 
 - (void)dealloc {

@@ -11,7 +11,7 @@ NS_SWIFT_NAME(PackagedSealedMessage)
     (struct PackagedSealedMessage *)packagedSealedMessage;
 
 - (instancetype)initWithCipherText:(NSData *)cyphertext
-             derivationOptionsJson:(NSString *)derivationOptionsJson
+             recipe:(NSString *)recipe
              unsealingInstructions:(NSString *)unsealingInstructions;
 
 + (instancetype)fromJsonWithPackagedSealedMessageAsJson:
@@ -28,7 +28,7 @@ NS_SWIFT_NAME(PackagedSealedMessage)
 
 @property(readonly) NSData *ciphertext;
 
-@property(readonly) NSString *derivationOptionsJson;
+@property(readonly) NSString *recipe;
 
 @property(readonly) NSString *unsealingInstructions;
 

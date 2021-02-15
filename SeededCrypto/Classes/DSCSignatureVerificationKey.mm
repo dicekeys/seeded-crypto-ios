@@ -17,12 +17,12 @@
 }
 
 + (instancetype)deriveFromSeedWithSeedString:(NSString *)seedString
-                       derivationOptionsJson:(NSString *)derivationOptionsJson
+                       recipe:(NSString *)recipe
                                        error:(NSError **)error {
   try {
     SignatureVerificationKey key =
         SigningKey::deriveFromSeed([seedString UTF8String],
-                                   [derivationOptionsJson UTF8String])
+                                   [recipe UTF8String])
             .getSignatureVerificationKey();
     return [[DSCSignatureVerificationKey alloc] init];
   } catch (const std::exception &e) {
@@ -65,9 +65,9 @@
   return sodiumBufferToData(sodiumBuffer);
 }
 
-- (NSString *)derivationOptionsJson {
+- (NSString *)recipe {
   return [NSString stringWithUTF8String:_signatureVerificationKeyObject
-                                            ->derivationOptionsJson.c_str()];
+                                            ->recipe.c_str()];
 }
 
 - (NSData *)signatureVerificationKeyBytes {

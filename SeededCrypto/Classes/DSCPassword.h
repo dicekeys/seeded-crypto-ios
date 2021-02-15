@@ -7,13 +7,13 @@ NS_SWIFT_NAME(Password)
 
 + (instancetype)
     deriveFromSeedAndWordListWithSeedString:(NSString *)seedString
-                      derivationOptionsJson:(NSString *)derivationOptionsJson
+                      recipe:(NSString *)recipe
                      wordListAsSingleString:(NSString *)wordListAsSingleString
                                       error:(NSError **)error
     __attribute__((swift_error(nonnull_error)));
 
 + (instancetype)deriveFromSeedWithSeedString:(NSString *)seedString
-                       derivationOptionsJson:(NSString *)derivationOptionsJson
+                       recipe:(NSString *)recipe
                                        error:(NSError **)error
     __attribute__((swift_error(nonnull_error)));
 
@@ -33,7 +33,7 @@ NS_SWIFT_NAME(Password)
 - (NSData *)toSerializedBinaryForm;
 
 @property(readonly) NSString *password;
-@property(readonly) NSString *derivationOptionsJson;
+@property(readonly) NSString *recipe;
 
 @end
 

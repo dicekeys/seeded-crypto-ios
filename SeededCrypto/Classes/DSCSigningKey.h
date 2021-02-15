@@ -6,19 +6,19 @@ NS_ASSUME_NONNULL_BEGIN
 NS_SWIFT_NAME(SigningKey)
 @interface DSCSigningKey : NSObject
 + (instancetype)deriveFromSeedWithSeedString:(NSString *)seedString
-                       derivationOptionsJson:(NSString *)derivationOptionsJson
+                       recipe:(NSString *)recipe
                                        error:(NSError **)error
     __attribute__((swift_error(nonnull_error)));
 
 + (NSData *)generateSignatureWithMessage:(NSString *)message
                               seedString:(NSString *)seedString
-                   derivationOptionsJson:(NSString *)derivationOptionsJson
+                   recipe:(NSString *)recipe
                                    error:(NSError **)error
     __attribute__((swift_error(nonnull_error)));
 
 + (NSData *)generateSignatureWithData:(NSData *)data
                            seedString:(NSString *)seedString
-                derivationOptionsJson:(NSString *)derivationOptionsJson
+                recipe:(NSString *)recipe
                                 error:(NSError **)error
     __attribute__((swift_error(nonnull_error)));
 
@@ -41,7 +41,7 @@ NS_SWIFT_NAME(SigningKey)
 
 - (NSData *)toSerializedBinaryForm;
 
-@property(readonly) NSString *derivationOptionsJson;
+@property(readonly) NSString *recipe;
 
 @property(readonly) DSCSignatureVerificationKey *signatureVerificationKey;
 

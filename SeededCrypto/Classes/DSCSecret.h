@@ -13,7 +13,7 @@ NS_SWIFT_NAME(Secret)
     NS_SWIFT_NAME(from(serializedBinaryForm:));
 
 + (instancetype)deriveFromSeedWithSeedString:(NSString *)seedString
-                       derivationOptionsJson:(NSString *)derivationOptionsJson
+                       recipe:(NSString *)recipe
                                        error:(NSError **)error
     __attribute__((swift_error(nonnull_error)));
 
@@ -23,7 +23,7 @@ NS_SWIFT_NAME(Secret)
 
 - (NSData *)secretBytes;
 
-@property(readonly) NSString *derivationOptionsJson;
+@property(readonly) NSString *recipe;
 
 @end
 
