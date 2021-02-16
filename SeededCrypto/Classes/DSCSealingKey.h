@@ -11,7 +11,7 @@ NS_SWIFT_NAME(SealingKey)
 - (instancetype)initWithSealingKeyObject:(struct SealingKey *)sealingKey;
 
 + (instancetype)deriveFromSeedWithSeedString:(NSString *)seedString
-                       derivationOptionsJson:(NSString *)derivationOptionsJson
+                       recipe:(NSString *)recipe
                                        error:(NSError **)error
     __attribute__((swift_error(nonnull_error)));
 
@@ -62,7 +62,7 @@ NS_SWIFT_NAME(SealingKey)
                                    error:(NSError **)error
     __attribute__((swift_error(nonnull_error)));
 
-@property(readonly) NSString *derivationOptionsJson;
+@property(readonly) NSString *recipe;
 
 @property(readonly) NSData *sealingKeyBytes;
 

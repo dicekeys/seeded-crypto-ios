@@ -11,7 +11,7 @@ NS_SWIFT_NAME(SignatureVerificationKey)
 @interface DSCSignatureVerificationKey : NSObject
 
 + (instancetype)deriveFromSeedWithSeedString:(NSString *)seedString
-                       derivationOptionsJson:(NSString *)derivationOptionsJson
+                       recipe:(NSString *)recipe
                                        error:(NSError **)error
     __attribute__((swift_error(nonnull_error)));
 
@@ -27,7 +27,7 @@ NS_SWIFT_NAME(SignatureVerificationKey)
 
 - (NSData *)toSerializedBinaryForm;
 
-@property(readonly) NSString *derivationOptionsJson;
+@property(readonly) NSString *recipe;
 
 @property(readonly) NSData *signatureVerificationKeyBytes;
 

@@ -7,7 +7,7 @@
 @end
 
 static NSString *seedString = @"Avocado";
-static NSString *derivationOptionsJson = @"{\"HumorStyle\": \"Boomer\"}";
+static NSString *recipe = @"{\"HumorStyle\": \"Boomer\"}";
 static NSString *plaintext = @"This seals the deal!";
 
 @implementation DSCSigningKeyTests
@@ -16,18 +16,18 @@ static NSString *plaintext = @"This seals the deal!";
   NSError *error;
   DSCSigningKey *signingKey =
       [DSCSigningKey deriveFromSeedWithSeedString:seedString
-                            derivationOptionsJson:derivationOptionsJson
+                            recipe:recipe
                                             error:&error];
   XCTAssertNil(error);
   DSCSignatureVerificationKey *signatureVerificationKey =
       signingKey.signatureVerificationKey;
-  XCTAssertEqualObjects(derivationOptionsJson,
-                        signingKey.derivationOptionsJson);
+  XCTAssertEqualObjects(recipe,
+                        signingKey.recipe);
   XCTAssertEqual(32,
                  signatureVerificationKey.signatureVerificationKeyBytes.length);
   XCTAssertEqual(64, signingKey.signingKeyBytes.length);
-  XCTAssertEqualObjects(derivationOptionsJson,
-                        signatureVerificationKey.derivationOptionsJson);
+  XCTAssertEqualObjects(recipe,
+                        signatureVerificationKey.recipe);
 
   NSData *signature = [signingKey generateSignatureWithMessage:plaintext
                                                          error:&error];
@@ -49,14 +49,14 @@ static NSString *plaintext = @"This seals the deal!";
   NSError *error;
   DSCSigningKey *signingKey =
       [DSCSigningKey deriveFromSeedWithSeedString:seedString
-                            derivationOptionsJson:derivationOptionsJson
+                            recipe:recipe
                                             error:&error];
   XCTAssertNil(error);
   DSCSigningKey *copy =
       [DSCSigningKey fromJsonWithSeedAsString:[signingKey toJson] error:&error];
   XCTAssertNil(error);
-  XCTAssertEqualObjects(signingKey.derivationOptionsJson,
-                        copy.derivationOptionsJson);
+  XCTAssertEqualObjects(signingKey.recipe,
+                        copy.recipe);
   XCTAssertEqualObjects(signingKey.signingKeyBytes, copy.signingKeyBytes);
   XCTAssertEqualObjects(signingKey.signatureVerificationKeyBytes,
                         copy.signatureVerificationKeyBytes);
@@ -66,7 +66,7 @@ static NSString *plaintext = @"This seals the deal!";
   NSError *error;
   DSCSigningKey *signingKey =
       [DSCSigningKey deriveFromSeedWithSeedString:seedString
-                            derivationOptionsJson:derivationOptionsJson
+                            recipe:recipe
                                             error:&error];
   XCTAssertNil(error);
   DSCSignatureVerificationKey *signatureVerificationKey =
@@ -76,8 +76,8 @@ static NSString *plaintext = @"This seals the deal!";
                                                      toJson]
                                            error:&error];
   XCTAssertNil(error);
-  XCTAssertEqualObjects(signatureVerificationKey.derivationOptionsJson,
-                        copy.derivationOptionsJson);
+  XCTAssertEqualObjects(signatureVerificationKey.recipe,
+                        copy.recipe);
   XCTAssertEqualObjects(signatureVerificationKey.signatureVerificationKeyBytes,
                         copy.signatureVerificationKeyBytes);
 }
@@ -86,7 +86,7 @@ static NSString *plaintext = @"This seals the deal!";
   NSError *error;
   DSCSigningKey *signingKey =
       [DSCSigningKey deriveFromSeedWithSeedString:seedString
-                            derivationOptionsJson:derivationOptionsJson
+                            recipe:recipe
                                             error:&error];
   XCTAssertNil(error);
   DSCSignatureVerificationKey *signatureVerificationKey =

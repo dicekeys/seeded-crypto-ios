@@ -17,14 +17,14 @@
 }
 
 - (instancetype)initWithCipherText:(NSData *)cyphertext
-             derivationOptionsJson:(NSString *)derivationOptionsJson
+             recipe:(NSString *)recipe
              unsealingInstructions:(NSString *)unsealingInstructions {
 
   const std::vector<unsigned char> cipher =
       dataToUnsignedCharVector(cyphertext);
 
   PackagedSealedMessage packagedSealedMessage =
-      PackagedSealedMessage(cipher, [derivationOptionsJson UTF8String],
+      PackagedSealedMessage(cipher, [recipe UTF8String],
                             [unsealingInstructions UTF8String]);
   return [[DSCPackagedSealedMessage alloc]
       initWithPackagedSealedMessage:new PackagedSealedMessage(
@@ -68,9 +68,9 @@
   return unsignedCharVectorToData(_packagedSealedMessageObject->ciphertext);
 }
 
-- (NSString *)derivationOptionsJson {
+- (NSString *)recipe {
   return [NSString stringWithUTF8String:_packagedSealedMessageObject
-                                            ->derivationOptionsJson.c_str()];
+                                            ->recipe.c_str()];
 }
 
 - (NSString *)unsealingInstructions {

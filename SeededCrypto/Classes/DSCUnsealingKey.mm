@@ -16,11 +16,11 @@
 }
 
 + (instancetype)deriveFromSeedWithSeedString:(NSString *)seedString
-                       derivationOptionsJson:(NSString *)derivationOptionsJson
+                       recipe:(NSString *)recipe
                                        error:(NSError **)error {
   try {
     UnsealingKey obj = UnsealingKey::deriveFromSeed(
-        [seedString UTF8String], [derivationOptionsJson UTF8String]);
+        [seedString UTF8String], [recipe UTF8String]);
     return [[DSCUnsealingKey alloc]
         initWithUnsealingKeyObject:new UnsealingKey(obj)];
   } catch (const std::exception &e) {
@@ -96,12 +96,12 @@
 
 + (DSCPackagedSealedMessage *)sealWithMessage:(NSString *)message
                                    seedString:(NSString *)seedString
-                            derivationOptions:(NSString *)derivationOptions
+                            recipeJson:(NSString *)recipeJson
                                         error:(NSError **)error {
   try {
     PackagedSealedMessage packagedSealedMessage =
         UnsealingKey::deriveFromSeed([seedString UTF8String],
-                                     [derivationOptions UTF8String])
+                                     [recipeJson UTF8String])
             .getSealingKey()
             .seal([message UTF8String]);
     return [[DSCPackagedSealedMessage alloc]
@@ -116,12 +116,12 @@
 + (DSCPackagedSealedMessage *)sealWithMessage:(NSString *)message
                         unsealingInstrucation:(NSString *)unsealingInstrucations
                                    seedString:(NSString *)seedString
-                            derivationOptions:(NSString *)derivationOptions
+                            recipeJson:(NSString *)recipeJson
                                         error:(NSError **)error {
   try {
     PackagedSealedMessage packagedSealedMessage =
         UnsealingKey::deriveFromSeed([seedString UTF8String],
-                                     [derivationOptions UTF8String])
+                                     [recipeJson UTF8String])
             .getSealingKey()
             .seal(stringToUnsignedCharArray(message), message.length,
                   [unsealingInstrucations UTF8String]);
@@ -136,12 +136,12 @@
 
 + (DSCPackagedSealedMessage *)sealWithData:(NSData *)data
                                 seedString:(NSString *)seedString
-                         derivationOptions:(NSString *)derivationOptions
+                         recipeJson:(NSString *)recipeJson
                                      error:(NSError **)error {
   try {
     PackagedSealedMessage packagedSealedMessage =
         UnsealingKey::deriveFromSeed([seedString UTF8String],
-                                     [derivationOptions UTF8String])
+                                     [recipeJson UTF8String])
             .getSealingKey()
             .seal(dataToUnsignedCharVector(data));
     return [[DSCPackagedSealedMessage alloc]
@@ -156,12 +156,12 @@
 + (DSCPackagedSealedMessage *)sealWithData:(NSData *)data
                      unsealingInstrucation:(NSString *)unsealingInstrucations
                                 seedString:(NSString *)seedString
-                         derivationOptions:(NSString *)derivationOptions
+                         recipeJson:(NSString *)recipeJson
                                      error:(NSError **)error {
   try {
     PackagedSealedMessage packagedSealedMessage =
         UnsealingKey::deriveFromSeed([seedString UTF8String],
-                                     [derivationOptions UTF8String])
+                                     [recipeJson UTF8String])
             .getSealingKey()
             .seal(dataToSodiumBuffer(data),
                   [unsealingInstrucations UTF8String]);
@@ -233,9 +233,9 @@
   return sodiumBufferToData(_unsealingKey->unsealingKeyBytes);
 }
 
-- (NSString *)derivationOptionsJson {
+- (NSString *)recipe {
   return [NSString
-      stringWithUTF8String:_unsealingKey->derivationOptionsJson.c_str()];
+      stringWithUTF8String:_unsealingKey->recipe.c_str()];
 }
 
 @end

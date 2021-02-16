@@ -12,10 +12,10 @@
 
 + (NSData *)generateSignatureWithMessage:(NSString *)message
                               seedString:(NSString *)seedString
-                   derivationOptionsJson:(NSString *)derivationOptionsJson
+                   recipe:(NSString *)recipe
                                    error:(NSError **)error {
   return [[DSCSigningKey deriveFromSeedWithSeedString:seedString
-                                derivationOptionsJson:derivationOptionsJson
+                                recipe:recipe
                                                 error:error]
       generateSignatureWithMessage:message
                              error:error];
@@ -23,10 +23,10 @@
 
 + (NSData *)generateSignatureWithData:(NSData *)data
                            seedString:(NSString *)seedString
-                derivationOptionsJson:(NSString *)derivationOptionsJson
+                recipe:(NSString *)recipe
                                 error:(NSError **)error {
   return [[DSCSigningKey deriveFromSeedWithSeedString:seedString
-                                derivationOptionsJson:derivationOptionsJson
+                                recipe:recipe
                                                 error:error]
       generateSignatureWithData:data
                           error:error];
@@ -41,11 +41,11 @@
 }
 
 + (instancetype)deriveFromSeedWithSeedString:(NSString *)seedString
-                       derivationOptionsJson:(NSString *)derivationOptionsJson
+                       recipe:(NSString *)recipe
                                        error:(NSError **)error {
   try {
     SigningKey signingKey = SigningKey::deriveFromSeed(
-        [seedString UTF8String], [derivationOptionsJson UTF8String]);
+        [seedString UTF8String], [recipe UTF8String]);
     return [[DSCSigningKey alloc]
         initWithSigningKeyObject:new SigningKey(signingKey)];
   } catch (const std::exception &e) {
@@ -101,9 +101,9 @@
   }
 }
 
-- (NSString *)derivationOptionsJson {
+- (NSString *)recipe {
   return [NSString
-      stringWithUTF8String:_signingKeyObject->derivationOptionsJson.c_str()];
+      stringWithUTF8String:_signingKeyObject->recipe.c_str()];
 }
 
 - (DSCSignatureVerificationKey *)signatureVerificationKey {

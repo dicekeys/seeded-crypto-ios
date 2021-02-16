@@ -16,7 +16,7 @@
 }
 
 + (instancetype)deriveFromSeedWithSeedString:(NSString *)seedString
-                       derivationOptionsJson:(NSString *)derivationOptionsJson
+                       recipe:(NSString *)recipe
                                        error:(NSError **)error {
   // TODO: implement
   return NULL;
@@ -155,9 +155,9 @@
   }
 }
 
-- (NSString *)derivationOptionsJson {
+- (NSString *)recipe {
   return [NSString
-      stringWithUTF8String:_sealingKey->derivationOptionsJson.c_str()];
+      stringWithUTF8String:_sealingKey->recipe.c_str()];
 }
 
 - (NSData *)sealingKeyBytes {

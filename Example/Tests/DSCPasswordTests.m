@@ -6,7 +6,7 @@
 @end
 
 static NSString *seedString = @"Avocado";
-static NSString *derivationOptionsJson = @"{}";
+static NSString *recipe = @"{}";
 static NSString *orderedTestKey = @"A1tB2rC3bD4lE5tF6bG1tH1tI1tJ1tK1tL1tM1tN1tO"
                                   @"1tP1tR1tS1tT1tU1tV1tW1tX1tY1tZ1t";
 
@@ -16,23 +16,23 @@ static NSString *orderedTestKey = @"A1tB2rC3bD4lE5tF6bG1tH1tI1tJ1tK1tL1tM1tN1tO"
   NSError *error;
   DSCPassword *password =
       [DSCPassword deriveFromSeedWithSeedString:seedString
-                          derivationOptionsJson:derivationOptionsJson
+                          recipe:recipe
                                           error:&error];
   XCTAssertNil(error);
-  XCTAssertEqualObjects(password.derivationOptionsJson, derivationOptionsJson);
+  XCTAssertEqualObjects(password.recipe, recipe);
 }
 
 - (void)testToAndFromBinaryForm {
   NSError *error;
   DSCPassword *password =
       [DSCPassword deriveFromSeedWithSeedString:seedString
-                          derivationOptionsJson:derivationOptionsJson
+                          recipe:recipe
                                           error:&error];
   XCTAssertNil(error);
   DSCPassword *copy =
       [DSCPassword fromSerializedBinaryFrom:[password toSerializedBinaryForm]];
-  XCTAssertEqualObjects(copy.derivationOptionsJson,
-                        password.derivationOptionsJson);
+  XCTAssertEqualObjects(copy.recipe,
+                        password.recipe);
   XCTAssertEqualObjects(copy.password, password.password);
 }
 
@@ -40,14 +40,14 @@ static NSString *orderedTestKey = @"A1tB2rC3bD4lE5tF6bG1tH1tI1tJ1tK1tL1tM1tN1tO"
   NSError *error;
   DSCPassword *password =
       [DSCPassword deriveFromSeedWithSeedString:seedString
-                          derivationOptionsJson:derivationOptionsJson
+                          recipe:recipe
                                           error:&error];
   XCTAssertNil(error);
   DSCPassword *copy = [DSCPassword fromJsonWithSeedAsJson:[password toJson]
                                                     error:&error];
   XCTAssertNil(error);
-  XCTAssertEqualObjects(copy.derivationOptionsJson,
-                        password.derivationOptionsJson);
+  XCTAssertEqualObjects(copy.recipe,
+                        password.recipe);
   XCTAssertEqualObjects(copy.password, password.password);
 }
 
@@ -55,12 +55,12 @@ static NSString *orderedTestKey = @"A1tB2rC3bD4lE5tF6bG1tH1tI1tJ1tK1tL1tM1tN1tO"
   NSError *error;
   DSCPassword *oldPassword =
       [DSCPassword deriveFromSeedWithSeedString:seedString
-                          derivationOptionsJson:derivationOptionsJson
+                          recipe:recipe
                                           error:&error];
   XCTAssertNil(error);
   DSCPassword *password = [DSCPassword
       deriveFromSeedWithSeedString:seedString
-             derivationOptionsJson:
+             recipe:
                  @"{\"hashFunction\": \"Argon2id\",\"lengthInBytes\": 64}"
                              error:&error];
   XCTAssertNil(error);
@@ -71,7 +71,7 @@ static NSString *orderedTestKey = @"A1tB2rC3bD4lE5tF6bG1tH1tI1tJ1tK1tL1tM1tN1tO"
   NSError *error;
   DSCPassword *password =
       [DSCPassword deriveFromSeedWithSeedString:orderedTestKey
-                          derivationOptionsJson:@"{\"lengthInBits\": 300}"
+                          recipe:@"{\"lengthInBits\": 300}"
                                           error:&error];
   XCTAssertNil(error);
   DSCPassword *copy =
@@ -83,14 +83,14 @@ static NSString *orderedTestKey = @"A1tB2rC3bD4lE5tF6bG1tH1tI1tJ1tK1tL1tM1tN1tO"
 
 - (void)testTenWordsViaLengthInWords {
   NSError *error;
-  NSString *derivationOptions = @"{\n\
+  NSString *recipeJson = @"{\n\
 \t\"type\": "
                                 @"\"Password\",\n\
 \t\"lengthInBits\": 90\n\
 }";
   DSCPassword *password =
       [DSCPassword deriveFromSeedWithSeedString:orderedTestKey
-                          derivationOptionsJson:derivationOptions
+                          recipe:recipeJson
                                           error:&error];
   XCTAssertNil(error);
 
@@ -101,7 +101,7 @@ static NSString *orderedTestKey = @"A1tB2rC3bD4lE5tF6bG1tH1tI1tJ1tK1tL1tM1tN1tO"
 
 - (void)testElevenWordsViaLengthInWords {
   NSError *error;
-  NSString *derivationOptions = @"{\n\
+  NSString *recipeJson = @"{\n\
 \t\"type\": "
                                 @"\"Password\",\n\
 \t\"lengthInWords\": "
@@ -109,7 +109,7 @@ static NSString *orderedTestKey = @"A1tB2rC3bD4lE5tF6bG1tH1tI1tJ1tK1tL1tM1tN1tO"
 }";
   DSCPassword *password =
       [DSCPassword deriveFromSeedWithSeedString:orderedTestKey
-                          derivationOptionsJson:derivationOptions
+                          recipe:recipeJson
                                           error:&error];
   XCTAssertNil(error);
   XCTAssertEqualObjects(
@@ -119,14 +119,14 @@ static NSString *orderedTestKey = @"A1tB2rC3bD4lE5tF6bG1tH1tI1tJ1tK1tL1tM1tN1tO"
 
 - (void)testThirteenWordsViaDefaultWithAltWordList {
   NSError *error;
-  NSString *derivationOptions = @"{\n\
+  NSString *recipeJson = @"{\n\
 \t\"wordList\": "
                                 @"\"EN_1024_words_6_chars_max_ed_4_"
                                 @"20200917\"\n\
 }";
   DSCPassword *password =
       [DSCPassword deriveFromSeedWithSeedString:orderedTestKey
-                          derivationOptionsJson:derivationOptions
+                          recipe:recipeJson
                                           error:&error];
   XCTAssertNil(error);
 
@@ -139,7 +139,7 @@ static NSString *orderedTestKey = @"A1tB2rC3bD4lE5tF6bG1tH1tI1tJ1tK1tL1tM1tN1tO"
   NSError *error;
   DSCPassword *password =
       [DSCPassword deriveFromSeedWithSeedString:orderedTestKey
-                          derivationOptionsJson:@"{}"
+                          recipe:@"{}"
                                           error:&error];
   XCTAssertNil(error);
   XCTAssertEqualObjects(password.password,

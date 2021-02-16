@@ -20,11 +20,11 @@
 }
 
 + (instancetype)deriveFromSeedWithSeedString:(NSString *)seedString
-                       derivationOptionsJson:(NSString *)derivationOptionsJson
+                       recipe:(NSString *)recipe
                                        error:(NSError **)error {
   try {
     SymmetricKey obj = SymmetricKey::deriveFromSeed(
-        [seedString UTF8String], [derivationOptionsJson UTF8String]);
+        [seedString UTF8String], [recipe UTF8String]);
     return [[DSCSymmetricKey alloc] initWithSymmetricKey:new SymmetricKey(obj)];
   } catch (const std::exception &e) {
     *error = cppExceptionToError(e);
@@ -64,9 +64,9 @@
   return sodiumBufferToData(_symmetricKeyObject->keyBytes);
 }
 
-- (NSString *)derivationOptionsJson {
+- (NSString *)recipe {
   return [NSString
-      stringWithUTF8String:_symmetricKeyObject->derivationOptionsJson.c_str()];
+      stringWithUTF8String:_symmetricKeyObject->recipe.c_str()];
 }
 
 - (DSCPackagedSealedMessage *)sealWithMessage:(NSString *)message
@@ -240,11 +240,11 @@
 
 + (DSCPackagedSealedMessage *)sealWithMessage:(NSString *)message
                                    seedString:(NSString *)seedString
-                            derivationOptions:(NSString *)derivationOptions
+                            recipeJson:(NSString *)recipeJson
                                         error:(NSError **)error {
   DSCSymmetricKey *symmetricKey =
       [DSCSymmetricKey deriveFromSeedWithSeedString:seedString
-                              derivationOptionsJson:derivationOptions
+                              recipe:recipeJson
                                               error:error];
   return [symmetricKey sealWithMessage:message error:error];
 }
@@ -252,11 +252,11 @@
 + (DSCPackagedSealedMessage *)sealWithMessage:(NSString *)message
                         unsealingInstructions:(NSString *)unsealingInstructions
                                    seedString:(NSString *)seedString
-                            derivationOptions:(NSString *)derivationOptions
+                            recipeJson:(NSString *)recipeJson
                                         error:(NSError **)error {
   DSCSymmetricKey *symmetricKey =
       [DSCSymmetricKey deriveFromSeedWithSeedString:seedString
-                              derivationOptionsJson:derivationOptions
+                              recipe:recipeJson
                                               error:error];
   return [symmetricKey sealWithMessage:message
                  unsealingInstructions:unsealingInstructions
@@ -265,11 +265,11 @@
 
 + (DSCPackagedSealedMessage *)sealWithData:(NSData *)data
                                 seedString:(NSString *)seedString
-                         derivationOptions:(NSString *)derivationOptions
+                         recipeJson:(NSString *)recipeJson
                                      error:(NSError **)error {
   DSCSymmetricKey *symmetricKey =
       [DSCSymmetricKey deriveFromSeedWithSeedString:seedString
-                              derivationOptionsJson:derivationOptions
+                              recipe:recipeJson
                                               error:error];
   return [symmetricKey sealWithData:data error:error];
 }
@@ -277,11 +277,11 @@
 + (DSCPackagedSealedMessage *)sealWithData:(NSData *)data
                      unsealingInstructions:(NSString *)unsealingInstructions
                                 seedString:(NSString *)seedString
-                         derivationOptions:(NSString *)derivationOptions
+                         recipeJson:(NSString *)recipeJson
                                      error:(NSError **)error {
   DSCSymmetricKey *symmetricKey =
       [DSCSymmetricKey deriveFromSeedWithSeedString:seedString
-                              derivationOptionsJson:derivationOptions
+                              recipe:recipeJson
                                               error:error];
   return [symmetricKey sealWithData:data
               unsealingInstructions:unsealingInstructions

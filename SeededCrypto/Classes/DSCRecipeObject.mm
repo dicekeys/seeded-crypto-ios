@@ -1,14 +1,14 @@
-#import "DSCDerivationOptions.h"
+#import "DSCRecipeObject.h"
 #import "DSCHelper.h"
-#include "derivation-options.hpp"
+#include "recipe.hpp"
 #include "sodium-buffer.hpp"
 
-@implementation DSCDerivationOptions
+@implementation DSCRecipeObject
 + (NSData *)derivePrimarySecretWithSeedString:(NSString *)seedString
-                        derivationOptionsJson:(NSString *)derivationOptionsJson
+                        recipe:(NSString *)recipe
                                         error:(NSError **)error {
-  SodiumBuffer sodiumBuffer = DerivationOptions::derivePrimarySecret(
-      [seedString UTF8String], [derivationOptionsJson UTF8String]);
+  SodiumBuffer sodiumBuffer = Recipe::derivePrimarySecret(
+      [seedString UTF8String], [recipe UTF8String]);
   try {
     return sodiumBufferToData(sodiumBuffer);
   } catch (const std::exception &e) {

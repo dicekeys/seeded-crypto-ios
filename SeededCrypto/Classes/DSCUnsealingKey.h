@@ -12,7 +12,7 @@ NS_SWIFT_NAME(UnsealingKey)
 - (instancetype)initWithUnsealingKeyObject:(struct UnsealingKey *)unsealingKey;
 
 + (instancetype)deriveFromSeedWithSeedString:(NSString *)seedString
-                       derivationOptionsJson:(NSString *)derivationOptionsJson
+                       recipe:(NSString *)recipe
                                        error:(NSError **)error __attribute__((swift_error(nonnull_error)));
 
 + (instancetype)fromJsonWithUnsealingKeyAsJson:(NSString *)unsealingKeyAsJson
@@ -46,27 +46,27 @@ NS_SWIFT_NAME(UnsealingKey)
 
 + (DSCPackagedSealedMessage *)sealWithMessage:(NSString *)message
                                    seedString:(NSString *)seedString
-                            derivationOptions:(NSString *)derivationOptions
+                            recipeJson:(NSString *)recipeJson
                                         error:(NSError **)error
     __attribute__((swift_error(nonnull_error)));
 
 + (DSCPackagedSealedMessage *)sealWithMessage:(NSString *)message
                         unsealingInstrucation:(NSString *)unsealingInstrucations
                                    seedString:(NSString *)seedString
-                            derivationOptions:(NSString *)derivationOptions
+                            recipeJson:(NSString *)recipeJson
                                         error:(NSError **)error
     __attribute__((swift_error(nonnull_error)));
 
 + (DSCPackagedSealedMessage *)sealWithData:(NSData *)data
                                 seedString:(NSString *)seedString
-                         derivationOptions:(NSString *)derivationOptions
+                         recipeJson:(NSString *)recipeJson
                                      error:(NSError **)error
     __attribute__((swift_error(nonnull_error)));
 
 + (DSCPackagedSealedMessage *)sealWithData:(NSData *)data
                      unsealingInstrucation:(NSString *)unsealingInstrucations
                                 seedString:(NSString *)seedString
-                         derivationOptions:(NSString *)derivationOptions
+                         recipeJson:(NSString *)recipeJson
                                      error:(NSError **)error
     __attribute__((swift_error(nonnull_error)));
 
@@ -96,7 +96,7 @@ NS_SWIFT_NAME(UnsealingKey)
 
 @property(readonly) NSData *unsealingKeyBytes;
 
-@property(readonly) NSString *derivationOptionsJson;
+@property(readonly) NSString *recipe;
 
 @end
 

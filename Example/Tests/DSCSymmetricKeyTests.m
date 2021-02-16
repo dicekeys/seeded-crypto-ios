@@ -6,7 +6,7 @@
 @end
 
 static NSString *seedString = @"yo";
-static NSString *derivationOptionsJson = @"{\"ValidJson\": \"This time!\"}";
+static NSString *recipe = @"{\"ValidJson\": \"This time!\"}";
 static NSString *plaintext = @"perchance to SCREAM!";
 static NSString *unsealingInstructions =
     @"run, do not walk, to the nearest cliche.";
@@ -21,11 +21,11 @@ NSData *plainTextBuffer() {
   NSError *error;
   DSCSymmetricKey *symmetricKey =
       [DSCSymmetricKey deriveFromSeedWithSeedString:seedString
-                              derivationOptionsJson:derivationOptionsJson
+                              recipe:recipe
                                               error:&error];
   XCTAssertNil(error);
-  XCTAssertEqualObjects(derivationOptionsJson,
-                        symmetricKey.derivationOptionsJson);
+  XCTAssertEqualObjects(recipe,
+                        symmetricKey.recipe);
 
   XCTAssertEqual(32, symmetricKey.keyBytes.length);
 
@@ -34,7 +34,7 @@ NSData *plainTextBuffer() {
               unsealingInstructions:unsealingInstructions
                               error:&error];
   XCTAssertNil(error);
-  XCTAssertEqualObjects(derivationOptionsJson, message.derivationOptionsJson);
+  XCTAssertEqualObjects(recipe, message.recipe);
   XCTAssertEqualObjects(unsealingInstructions, message.unsealingInstructions);
 
   NSData *recoveredPlainTextBytes =
@@ -49,15 +49,15 @@ NSData *plainTextBuffer() {
   NSError *error;
   DSCSymmetricKey *symmetricKey =
       [DSCSymmetricKey deriveFromSeedWithSeedString:seedString
-                              derivationOptionsJson:derivationOptionsJson
+                              recipe:recipe
                                               error:&error];
   XCTAssertNil(error);
   DSCSymmetricKey *copy =
       [DSCSymmetricKey fromJsonWithSymmetricKeyAsJson:[symmetricKey toJson]
                                                 error:&error];
   XCTAssertNil(error);
-  XCTAssertEqualObjects(symmetricKey.derivationOptionsJson,
-                        copy.derivationOptionsJson);
+  XCTAssertEqualObjects(symmetricKey.recipe,
+                        copy.recipe);
   XCTAssertEqualObjects(symmetricKey.keyBytes, copy.keyBytes);
 }
 
@@ -65,7 +65,7 @@ NSData *plainTextBuffer() {
   NSError *error;
   DSCSymmetricKey *symmetricKey =
       [DSCSymmetricKey deriveFromSeedWithSeedString:seedString
-                              derivationOptionsJson:derivationOptionsJson
+                              recipe:recipe
                                               error:&error];
   XCTAssertNil(error);
   DSCPackagedSealedMessage *psm =
@@ -77,7 +77,7 @@ NSData *plainTextBuffer() {
       fromJsonWithPackagedSealedMessageAsJson:[psm toJson]
                                         error:&error];
   XCTAssertNil(error);
-  XCTAssertEqualObjects(copy.derivationOptionsJson, psm.derivationOptionsJson);
+  XCTAssertEqualObjects(copy.recipe, psm.recipe);
   XCTAssertEqualObjects(copy.unsealingInstructions, psm.unsealingInstructions);
   XCTAssertEqualObjects(copy.ciphertext, psm.ciphertext);
 
@@ -93,7 +93,7 @@ NSData *plainTextBuffer() {
   NSError *error;
   DSCSymmetricKey *symmetricKey =
       [DSCSymmetricKey deriveFromSeedWithSeedString:seedString
-                              derivationOptionsJson:derivationOptionsJson
+                              recipe:recipe
                                               error:&error];
   XCTAssertNil(error);
   DSCPackagedSealedMessage *psm =
@@ -103,7 +103,7 @@ NSData *plainTextBuffer() {
   XCTAssertNil(error);
   DSCPackagedSealedMessage *copy = [DSCPackagedSealedMessage
       fromSerializedBinaryFrom:[psm toSerializedBinaryForm]];
-  XCTAssertEqualObjects(copy.derivationOptionsJson, psm.derivationOptionsJson);
+  XCTAssertEqualObjects(copy.recipe, psm.recipe);
   XCTAssertEqualObjects(copy.unsealingInstructions, psm.unsealingInstructions);
   XCTAssertEqualObjects(copy.ciphertext, psm.ciphertext);
 
@@ -117,33 +117,33 @@ NSData *plainTextBuffer() {
 
 - (void)testFailedCaseInApi {
   NSError *error;
-  NSString *derivationOptionsJson = @"{}";
+  NSString *recipe = @"{}";
   NSString *testMessage = @"The secret ingredient is dihydrogen monoxide";
   DSCPackagedSealedMessage *psm =
       [DSCSymmetricKey sealWithMessage:testMessage
                             seedString:@"A1tA1tA1tA1tA1tA1tA1tA1tA1tA1tA1tA1tA1"
                                        @"tA1tA1tA1tA1tA1tA1tA1tA1tA1tA1tA1tA1t"
-                     derivationOptions:derivationOptionsJson
+                     recipeJson:recipe
                                  error:&error];
   XCTAssertNil(error);
-  XCTAssertEqualObjects(psm.derivationOptionsJson, derivationOptionsJson);
+  XCTAssertEqualObjects(psm.recipe, recipe);
 }
 
 - (void)testSealNoInstructionsAndStaticUnseal {
   NSError *error;
   DSCSymmetricKey *symmetricKey =
       [DSCSymmetricKey deriveFromSeedWithSeedString:seedString
-                              derivationOptionsJson:derivationOptionsJson
+                              recipe:recipe
                                               error:&error];
   XCTAssertNil(error);
-  XCTAssertEqualObjects(derivationOptionsJson,
-                        symmetricKey.derivationOptionsJson);
+  XCTAssertEqualObjects(recipe,
+                        symmetricKey.recipe);
   XCTAssertEqual(32, symmetricKey.keyBytes.length);
 
   DSCPackagedSealedMessage *message = [symmetricKey sealWithMessage:plaintext
                                                               error:&error];
   XCTAssertNil(error);
-  XCTAssertEqualObjects(derivationOptionsJson, message.derivationOptionsJson);
+  XCTAssertEqualObjects(recipe, message.recipe);
   XCTAssertEqualObjects(@"", message.unsealingInstructions);
 
   NSData *recoveredPlainTextBytes =
@@ -158,20 +158,20 @@ NSData *plainTextBuffer() {
   NSError *error;
   DSCSymmetricKey *symmetricKey =
       [DSCSymmetricKey deriveFromSeedWithSeedString:seedString
-                              derivationOptionsJson:derivationOptionsJson
+                              recipe:recipe
                                               error:&error];
   XCTAssertNil(error);
-  XCTAssertEqualObjects(derivationOptionsJson,
-                        symmetricKey.derivationOptionsJson);
+  XCTAssertEqualObjects(recipe,
+                        symmetricKey.recipe);
 
   NSData *ciphertext = [symmetricKey sealToCiphertextOnlyWithMessage:plaintext
                                                                error:&error];
   XCTAssertNil(error);
   DSCPackagedSealedMessage *message =
       [[DSCPackagedSealedMessage alloc] initWithCipherText:ciphertext
-                                     derivationOptionsJson:derivationOptionsJson
+                                     recipe:recipe
                                      unsealingInstructions:@""];
-  XCTAssertEqualObjects(derivationOptionsJson, message.derivationOptionsJson);
+  XCTAssertEqualObjects(recipe, message.recipe);
   XCTAssertEqualObjects(@"", message.unsealingInstructions);
 
   NSData *recoveredPlainTextBytes =
@@ -186,11 +186,11 @@ NSData *plainTextBuffer() {
   NSError *error;
   DSCSymmetricKey *symmetricKey =
       [DSCSymmetricKey deriveFromSeedWithSeedString:seedString
-                              derivationOptionsJson:derivationOptionsJson
+                              recipe:recipe
                                               error:&error];
   XCTAssertNil(error);
-  XCTAssertEqualObjects(derivationOptionsJson,
-                        symmetricKey.derivationOptionsJson);
+  XCTAssertEqualObjects(recipe,
+                        symmetricKey.recipe);
 
   NSData *ciphertext =
       [symmetricKey sealToCiphertextOnlyWithMessage:plaintext
@@ -199,9 +199,9 @@ NSData *plainTextBuffer() {
   XCTAssertNil(error);
   DSCPackagedSealedMessage *message = [[DSCPackagedSealedMessage alloc]
          initWithCipherText:ciphertext
-      derivationOptionsJson:derivationOptionsJson
+      recipe:recipe
       unsealingInstructions:unsealingInstructions];
-  XCTAssertEqualObjects(derivationOptionsJson, message.derivationOptionsJson);
+  XCTAssertEqualObjects(recipe, message.recipe);
   XCTAssertEqualObjects(unsealingInstructions, message.unsealingInstructions);
 
   NSData *recoveredPlainTextBytes =
@@ -216,7 +216,7 @@ NSData *plainTextBuffer() {
   NSError *error;
   DSCSymmetricKey *symmetricKey =
       [DSCSymmetricKey deriveFromSeedWithSeedString:seedString
-                              derivationOptionsJson:derivationOptionsJson
+                              recipe:recipe
                                               error:&error];
   XCTAssertNil(error);
   DSCPackagedSealedMessage *message =
@@ -238,7 +238,7 @@ NSData *plainTextBuffer() {
   NSError *error;
   DSCSymmetricKey *symmetricKey =
       [DSCSymmetricKey deriveFromSeedWithSeedString:seedString
-                              derivationOptionsJson:derivationOptionsJson
+                              recipe:recipe
                                               error:&error];
   XCTAssertNil(error);
   DSCPackagedSealedMessage *message =
@@ -260,7 +260,7 @@ NSData *plainTextBuffer() {
   NSError *error;
   DSCSymmetricKey *symmetricKey =
       [DSCSymmetricKey deriveFromSeedWithSeedString:seedString
-                              derivationOptionsJson:derivationOptionsJson
+                              recipe:recipe
                                               error:&error];
   XCTAssertNil(error);
   DSCPackagedSealedMessage *message =
@@ -281,7 +281,7 @@ NSData *plainTextBuffer() {
   NSError *error;
   DSCSymmetricKey *symmetricKey =
       [DSCSymmetricKey deriveFromSeedWithSeedString:seedString
-                              derivationOptionsJson:derivationOptionsJson
+                              recipe:recipe
                                               error:&error];
   XCTAssertNil(error);
   DSCPackagedSealedMessage *message =
@@ -302,7 +302,7 @@ NSData *plainTextBuffer() {
   NSError *error;
   DSCSymmetricKey *symmetricKey =
       [DSCSymmetricKey deriveFromSeedWithSeedString:seedString
-                              derivationOptionsJson:derivationOptionsJson
+                              recipe:recipe
                                               error:&error];
   XCTAssertNil(error);
   DSCPackagedSealedMessage *message =
@@ -324,7 +324,7 @@ NSData *plainTextBuffer() {
   NSError *error;
   DSCSymmetricKey *symmetricKey =
       [DSCSymmetricKey deriveFromSeedWithSeedString:seedString
-                              derivationOptionsJson:derivationOptionsJson
+                              recipe:recipe
                                               error:&error];
   XCTAssertNil(error);
   DSCPackagedSealedMessage *message =
@@ -346,7 +346,7 @@ NSData *plainTextBuffer() {
   NSError *error;
   DSCSymmetricKey *symmetricKey =
       [DSCSymmetricKey deriveFromSeedWithSeedString:seedString
-                              derivationOptionsJson:derivationOptionsJson
+                              recipe:recipe
                                               error:&error];
   XCTAssertNil(error);
   [symmetricKey sealWithMessage:@""
