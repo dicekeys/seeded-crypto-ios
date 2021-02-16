@@ -96,6 +96,8 @@ NS_SWIFT_NAME(UnsealingKey)
 
 @property(readonly) NSData *unsealingKeyBytes;
 
+@property(readonly) NSString *derivationOptionsJson;
+
 @end
 
 NS_ASSUME_NONNULL_END
