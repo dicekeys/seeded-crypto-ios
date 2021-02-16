@@ -64,6 +64,8 @@ NS_SWIFT_NAME(SealingKey)
 
 @property(readonly) NSString *derivationOptionsJson;
 
+@property(readonly) NSData *sealingKeyBytes;
+
 @end
 
 NS_ASSUME_NONNULL_END
