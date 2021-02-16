@@ -233,9 +233,9 @@
   return sodiumBufferToData(_unsealingKey->unsealingKeyBytes);
 }
 
-- (NSString *)derivationOptionsJson {
+- (NSString *)recipe {
   return [NSString
-      stringWithUTF8String:_unsealingKey->derivationOptionsJson.c_str()];
+      stringWithUTF8String:_unsealingKey->recipe.c_str()];
 }
 
 @end
