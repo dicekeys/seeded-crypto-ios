@@ -10,11 +10,6 @@ NS_SWIFT_NAME(SealingKey)
 
 - (instancetype)initWithSealingKeyObject:(struct SealingKey *)sealingKey;
 
-+ (instancetype)deriveFromSeedWithSeedString:(NSString *)seedString
-                       recipe:(NSString *)recipe
-                                       error:(NSError **)error
-    __attribute__((swift_error(nonnull_error)));
-
 + (instancetype)fromJsonWithSealingKeyAsJson:(NSString *)sealingKeyAsJson
                                        error:(NSError **)error
     __attribute__((swift_error(nonnull_error)))NS_SWIFT_NAME(from(json:));
