@@ -15,13 +15,6 @@
   return self;
 }
 
-+ (instancetype)deriveFromSeedWithSeedString:(NSString *)seedString
-                       recipe:(NSString *)recipe
-                                       error:(NSError **)error {
-  // TODO: implement
-  return NULL;
-}
-
 + (instancetype)fromJsonWithSealingKeyAsJson:(NSString *)sealingKeyAsJson
                                        error:(NSError **)error {
   try {
