@@ -106,6 +106,21 @@
       stringWithUTF8String:_signingKeyObject->recipe.c_str()];
 }
 
+- (NSString *)openSshPublicKey {
+  return [NSString
+      stringWithUTF8String:_signingKeyObject->toOpenSshPublicKey().c_str()];
+}
+
+- (NSString *)openSshPemPrivateKey {
+  return [NSString
+      stringWithUTF8String:_signingKeyObject->toOpenSshPemPrivateKey("").c_str()];
+}
+
+- (NSString *)openPgpPemFormatSecretKey {
+  return [NSString
+      stringWithUTF8String:_signingKeyObject->toOpenPgpPemFormatSecretKey("", 0).c_str()];
+}
+
 - (DSCSignatureVerificationKey *)signatureVerificationKey {
   SignatureVerificationKey key =
       _signingKeyObject->getSignatureVerificationKey();
