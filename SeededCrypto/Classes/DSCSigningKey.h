@@ -42,6 +42,9 @@ NS_SWIFT_NAME(SigningKey)
 - (NSData *)toSerializedBinaryForm;
 
 @property(readonly) NSString *recipe;
+@property(readonly) NSString *openSshPublicKey;
+@property(readonly) NSString *openSshPemPrivateKey;
+@property(readonly) NSString *openPgpPemFormatSecretKey;
 
 @property(readonly) DSCSignatureVerificationKey *signatureVerificationKey;
 
